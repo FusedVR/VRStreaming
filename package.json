@@ -1,0 +1,23 @@
+{
+  "name": "com.fusedvr.vrstreaming",
+  "version": "0.1.0",
+  "displayName": "FusedVR Streaming",
+  "description": "This VR Streaming Package contains a minimal SDK & prefabs to implement VR Streaming (CloudXR) using WebRTC and Unity Remote Rendering",
+  "dependencies": {
+    "com.unity.renderstreaming": "3.0.1-preview"
+  },
+  "keywords": [
+    "vr",
+    "renderstreaming",
+    "webrtc"
+  ],
+  "author": {
+    "name": "Vasanth Mohan",
+    "email": "fusedarvr@gmail.com",
+    "url": "https://www.fusedvr.com"
+  },
+  "type": "tool",
+  "unity": "2019.4",
+  "hideInEditor": false,
+  "license": "See LICENSE.md file"
+}
