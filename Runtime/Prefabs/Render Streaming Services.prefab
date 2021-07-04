@@ -696,7 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045786cf504bd7347842d6948241cbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  urlSignaling: 
+  urlSignaling: wss://webrtc-pcehljv7ea-uw.a.run.app
   signalingType: Unity.RenderStreaming.Signaling.WebSocketSignaling
   iceServers:
   - credential: 
