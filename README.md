@@ -1,6 +1,6 @@
 # Unity VR Render Streaming SDK
 
-[![Release](https://img.shields.io/github/v/release/FusedVR/VRStreaming)](https://github.com/FusedVR/VRStreaming/releases/tag/0.1.0)
+[![Release](https://img.shields.io/github/v/release/FusedVR/VRStreaming)](https://github.com/FusedVR/VRStreaming/releases)
 
 This SDK package is built based on [Unity Render Streaming](https://docs.unity3d.com/Packages/com.unity.renderstreaming@2.0/manual/index.html) and [Unity WebRTC](https://docs.unity3d.com/Packages/com.unity.webrtc@2.4/manual/index.html). By using this package, you can stream any Unity scene from the the Unity Editor or a Standalone build to a WebXR client on the FusedVR Website : [https://fusedvr.com/rendering](https://fusedvr.com/rendering). To try this this package, it is as simple as dragging the included **Render Streaming Services** prefab into your Unity scene that you would like to stream and setting up the connect to the WebRTC server. 
 
