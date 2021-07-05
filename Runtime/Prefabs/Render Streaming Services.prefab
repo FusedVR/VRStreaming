@@ -662,7 +662,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1793859183747734309}
   - component: {fileID: 1793859183747734314}
-  - component: {fileID: 1793859183747734308}
+  - component: {fileID: 48972029}
   m_Layer: 0
   m_Name: RenderStreaming
   m_TagString: Untagged
@@ -707,9 +707,9 @@ MonoBehaviour:
   interval: 5
   hardwareEncoderSupport: 1
   handlers:
-  - {fileID: 1793859183747734308}
+  - {fileID: 48972029}
   runOnAwake: 1
---- !u!114 &1793859183747734308
+--- !u!114 &48972029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1793859183747734311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2307e7ad91222841b562bebd81a69a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 31b94e633688a294abc5410d3190b6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   streams:
