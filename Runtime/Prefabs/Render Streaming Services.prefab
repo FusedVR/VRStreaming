@@ -707,7 +707,7 @@ MonoBehaviour:
   interval: 5
   hardwareEncoderSupport: 1
   handlers:
-  - {fileID: 0}
+  - {fileID: 48972029}
   runOnAwake: 1
 --- !u!114 &48972029
 MonoBehaviour:
