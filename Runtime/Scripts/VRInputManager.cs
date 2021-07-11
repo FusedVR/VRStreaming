@@ -24,6 +24,14 @@ namespace FusedVR.VRStreaming
     {
         #region Constants
         /// <summary>
+        /// The Data Format  that we are getting from the VR headset
+        /// </summary>
+        public enum VRDataType {
+            PosRot,
+            Button
+        }
+
+        /// <summary>
         /// Data Source for positional / rotational VR Data i.e. Head Left Hand or Right Hand
         /// </summary>
         public enum Source {
@@ -33,17 +41,9 @@ namespace FusedVR.VRStreaming
         }
 
         /// <summary>
-        /// This is the ID for getting Controller Input Data from the client
+        /// The Base ID for Recieving VR Data from the Web client
         /// </summary>
-        public const int VR_CONTROLLER_ID = 5;
-
-        /// <summary>
-        /// The Base ID for Recieving Positional / Rotational Data from the client
-        /// BASEID + 0 = Head
-        /// BASEID + 1 = Left Hand
-        /// BASEID + 2 = Right Hand
-        /// </summary>
-        public const int VR_BASE_ID = 6;
+        public const int VR_DEVICE_ID = 6;
         #endregion
 
         #region Events
@@ -63,7 +63,7 @@ namespace FusedVR.VRStreaming
         /// <summary>
         /// C# Event responsible for sending Controller Data that is recieved from the client
         /// </summary>
-        public delegate void OnControllerDataRecieved(int handID, int buttonID, bool pressed, bool touched);
+        public delegate void OnControllerDataRecieved(Source handID, int buttonID, bool pressed, bool touched);
         public static OnControllerDataRecieved ControllerDataEvent;
         #endregion
 
@@ -83,22 +83,25 @@ namespace FusedVR.VRStreaming
         /// </summary>
         protected override void OnMessage(byte[] bytes)
         {
-            int index = bytes[0];
+            if (bytes[0] == VR_DEVICE_ID) //VR Device Data
+            { 
+                int data_type = bytes[1]; //get input data source
+                switch ( (VRDataType) data_type) {
+                    case VRDataType.PosRot:
+                        Source device_type = (Source) bytes[2]; //get source
+                        Vector3 pos = new Vector3(BitConverter.ToSingle(bytes, 3),
+                            BitConverter.ToSingle(bytes, 11), BitConverter.ToSingle(bytes, 19));
 
-            if (index == VR_CONTROLLER_ID)
-            { //VR Controller Data
-                ControllerDataEvent?.Invoke(bytes[1], bytes[2], BitConverter.ToBoolean(bytes, 3), BitConverter.ToBoolean(bytes, 4));
-            }
-
-            if (index >= VR_BASE_ID)
-            { //VR data
-                Vector3 pos = new Vector3(BitConverter.ToSingle(bytes, 1),
-                    BitConverter.ToSingle(bytes, 9), BitConverter.ToSingle(bytes, 17));
-
-                Vector3 rot = new Vector3(Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 25),
-                    Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 33), Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 41));
-
-                VRPoseEvent.Invoke((Source)(index - VR_BASE_ID), pos, rot);
+                        Vector3 rot = new Vector3(Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 27),
+                            Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 35), Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 43));
+                        VRPoseEvent.Invoke(device_type, pos, rot);
+                        break;
+                    case VRDataType.Button:
+                        ControllerDataEvent?.Invoke((Source) bytes[2], bytes[3], BitConverter.ToBoolean(bytes, 4), 
+                            BitConverter.ToBoolean(bytes, 5));
+                        break;
+                }
+                
             }
         }
         #endregion

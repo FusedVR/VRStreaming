@@ -72,9 +72,9 @@ namespace FusedVR.VRStreaming
         /// <summary>
         /// Callback function for Raw Data from VRInputManager ControllerDataEvent
         /// </summary>
-        void ControllerEvents(int handID, int buttonID, bool pressed, bool touched)
+        void ControllerEvents(VRInputManager.Source handID, int buttonID, bool pressed, bool touched)
         {
-            VRControllerEvent.Invoke((Hand)handID, (Button)buttonID, pressed, touched); //invoke the Unity Event
+            VRControllerEvent?.Invoke((Hand)(handID -1), (Button)buttonID, pressed, touched); //invoke the Unity Event
         }
         #endregion
     }
