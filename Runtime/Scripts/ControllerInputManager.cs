@@ -97,12 +97,7 @@ namespace FusedVR.VRStreaming
         /// Callback function for Raw Data from VRInputManager ControllerDataEvent
         /// </summary>
         void AxisEvents(VRInputManager.Source handID, int buttonID, float x, float y) {
-            Button axisButton = (Button)((int)Button.Joystick + buttonID);
-
-            Debug.Log("My Button is " + axisButton);
-            Debug.Log("Axis is X : " + x);
-            Debug.Log("Axis is Y : " + y);
-            
+            Button axisButton = (Button)((int)Button.Joystick + buttonID);            
             VRAxisEvent?.Invoke((Hand)(handID - 1), axisButton, x, y); //invoke the Unity Event
         }
         #endregion
