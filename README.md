@@ -27,3 +27,23 @@ Limited testing and Proof of Concepts have been done with deploying a standalone
 # GPU Recommendations
 
 It is strongly recommended to utlize a NVIDIA GPU as these GPUs support Hardware Accelerated Encoding, which is a requirement for lower latency VR Streaming. You can check the fully compatability matrix on the [Unity WebRTC documentation](https://docs.unity3d.com/Packages/com.unity.webrtc@2.4/manual/index.html). If you are using a GPU that does not support Hardware Accelerated, you will need to uncheck this option on the **RenderStreaming** Gameobject and Component
+
+# WebXR Input
+
+Controller Input is captured via the [A-Frame Tracked-Controls component](https://aframe.io/docs/1.2.0/components/tracked-controls.html) and then sent over the data channel to the Unity SDK. This data protocol is adaopted from the Unity Broadcast system, which was also capable of sending Keyboard, Mouse, Touch, and Gamepad data back to Unity via the RemoteInput.cs script in Unity. As such, VR data is sent from the client to Unity as Data Array buffers, defined in bytes. 
+
+The first byte of the data Array Byffer refers to the input mode to determine how to parse the data as an id. The following IDs were reservered for Web Input by the Unity Render Streaming system. 
+
+- ID 0 = Keyboard
+- ID 1 = Mouse
+- ID 2 = MouseWheel
+- ID 3 = Touch
+- ID 4 = UI (legacy)
+- ID 5 = Gamepad
+
+ID 6 is what is used for all WebXR Input specific to VR. Within VR Input, we specify 3 different modes for sending data, which are:
+- ID 0 = Positional and Rotational Data of the Headset and Hands
+- ID 1 = Controller Button Data ( A , B , Trigger, Grip )
+- ID 2 = Controller Axis Data (Joystick & Trackpad)
+
+The Raw Data from the Client is passed to VRInputManager, who is responsible for transmitting events based on the data mode recieved. Controller Input is then parsed by the ControllerInputManager, which has events that can be subscribed to for VR Input. 

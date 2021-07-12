@@ -1,6 +1,6 @@
 {
   "name": "com.fusedvr.vrstreaming",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "FusedVR Streaming",
   "description": "This VR Streaming Package contains a minimal SDK & prefabs to implement VR Streaming (CloudXR) using WebRTC and Unity Remote Rendering",
   "dependencies": {
@@ -10,6 +10,13 @@
     "vr",
     "renderstreaming",
     "webrtc"
+  ],
+  "samples" : [
+    {
+      "displayName" : "HDRP VR Render Streaming",
+      "description" : "Example of HDRP Streaming to VR. This will auto-import the HDRP package into your Unity project",
+      "path" : "Samples~/HDRPVR"
+    }
   ],
   "author": {
     "name": "Vasanth Mohan",
