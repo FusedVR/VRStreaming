@@ -28,7 +28,8 @@ namespace FusedVR.VRStreaming
         /// </summary>
         public enum VRDataType {
             PosRot,
-            Button
+            Button,
+            Axis
         }
 
         /// <summary>
@@ -61,10 +62,17 @@ namespace FusedVR.VRStreaming
         public VRPoseData VRPoseEvent;
 
         /// <summary>
-        /// C# Event responsible for sending Controller Data that is recieved from the client
+        /// C# Event responsible for sending Controller Button Data that is recieved from the client
         /// </summary>
-        public delegate void OnControllerDataRecieved(Source handID, int buttonID, bool pressed, bool touched);
-        public static OnControllerDataRecieved ControllerDataEvent;
+        public delegate void OnButtonDataRecieved(Source handID, int buttonID, bool pressed, bool touched);
+        public static OnButtonDataRecieved ButtonDataEvent;
+
+
+        /// <summary>
+        /// C# Event responsible for sending Controller Axis Data that is recieved from the client
+        /// </summary>
+        public delegate void OnAxisDataRecieved(Source handID, int buttonID, float xaxis, float yaxis);
+        public static OnAxisDataRecieved AxisDataEvent;
         #endregion
 
         #region Methods
@@ -97,8 +105,20 @@ namespace FusedVR.VRStreaming
                         VRPoseEvent.Invoke(device_type, pos, rot);
                         break;
                     case VRDataType.Button:
-                        ControllerDataEvent?.Invoke((Source) bytes[2], bytes[3], BitConverter.ToBoolean(bytes, 4), 
+                        ButtonDataEvent?.Invoke((Source) bytes[2], bytes[3], BitConverter.ToBoolean(bytes, 4), 
                             BitConverter.ToBoolean(bytes, 5));
+                        break;
+                    case VRDataType.Axis:
+                        if ( BitConverter.ToBoolean(bytes, 3) || BitConverter.ToBoolean(bytes, 12) ) { //if trackpad changed
+                            AxisDataEvent?.Invoke((Source)bytes[2], 1, BitConverter.ToSingle(bytes, 4),
+                                BitConverter.ToSingle(bytes, 13));
+                        }
+
+                        if (BitConverter.ToBoolean(bytes, 21) || BitConverter.ToBoolean(bytes, 30)) { //if joystick changed
+                            AxisDataEvent?.Invoke((Source)bytes[2], 0, BitConverter.ToSingle(bytes, 22),
+                                BitConverter.ToSingle(bytes, 31));
+                        }
+
                         break;
                 }
                 
