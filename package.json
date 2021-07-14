@@ -16,6 +16,11 @@
       "displayName" : "HDRP VR Render Streaming",
       "description" : "Example of HDRP Streaming to VR. This will auto-import the HDRP package into your Unity project",
       "path" : "Samples~/HDRPVR"
+    },
+    {
+      "displayName" : "VRTK Integration Sample",
+      "description" : "Example of VRTK Integration with VR Render Streaming",
+      "path" : "Samples~/VRTK-Sample"
     }
   ],
   "author": {
