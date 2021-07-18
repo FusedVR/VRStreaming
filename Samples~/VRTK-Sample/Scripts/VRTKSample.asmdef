@@ -1,0 +1,19 @@
+{
+    "name": "VRTKSample",
+    "references": [
+        "GUID:23756adb8cb36e64587322ad0ecdf5e3",
+        "GUID:c1025f99d610bc44e9ca550377fec692",
+        "GUID:aa53792fb241caf4dbb778e217642557",
+        "GUID:9f889fb315528014992493d088c458d4",
+        "GUID:078771dcdb817c9498cacd34853de9cd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

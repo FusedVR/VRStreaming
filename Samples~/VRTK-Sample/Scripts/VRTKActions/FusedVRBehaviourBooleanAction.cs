@@ -9,11 +9,22 @@
     /// </summary>
     public class FusedVRBehaviourBooleanAction : BooleanAction
     {
+        [Tooltip("Manager to Listen for Input")]
+        public ControllerInputManager inputManager;
+
         [Tooltip("Which hand should this behavior listen to") ]
         public Hand myHand;
 
         [Tooltip("Which button should this behavior listen to")]
         public Button myButton;
+
+        private new void Start() {
+            inputManager.VRButtonEvent.AddListener(OnRemoteUpdate);
+        }
+
+        private void OnDestroy() {
+            inputManager.VRButtonEvent.RemoveListener(OnRemoteUpdate);
+        }
 
         public void OnRemoteUpdate(Hand hand, Button button, bool pressed, bool touched) {
             if (hand == myHand && button == myButton) {

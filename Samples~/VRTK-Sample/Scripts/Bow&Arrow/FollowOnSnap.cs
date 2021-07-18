@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using Tilia.Interactions.Interactables.Interactables;
 using Tilia.Interactions.Interactables.Interactors;
 using Tilia.Interactions.SnapZone;
@@ -8,6 +6,8 @@ using UnityEngine;
 
 public class FollowOnSnap : MonoBehaviour
 {
+    public const float MAX_SPEED = 30f;
+
     public SnapZoneFacade facade;
 
     private InteractorFacade hand;
@@ -18,8 +18,11 @@ public class FollowOnSnap : MonoBehaviour
     private Vector3 stringStartPos;
     private bool nockable = true;
 
-    private void Start()
+    private InteractableFacade bow;
+
+    void Start()
     {
+        bow = gameObject.GetComponentInParent<InteractableFacade>();
         bowString = transform.parent;
         stringStartPos = transform.parent.localPosition;
     }
@@ -30,45 +33,55 @@ public class FollowOnSnap : MonoBehaviour
         {
             InteractableFacade interactable = arrow.GetComponent<InteractableFacade>(); 
             hand = interactable.GrabbingInteractors[0];
-            interactable.LastUngrabbed.AddListener(UnGrabbed);
-            facade.Snap(arrow);
 
+            facade.Snap(arrow); //snap arrow to the bow
+            bow.Grab(hand); //second hand grabs bow and drops arrow, which has been snapped
+
+            hand.Ungrabbed.AddListener(UnGrabbed); //listen for UnGrab 
+            
+            snappedState = 1;
             nockable = false;
         }
     }
 
-    private void UnGrabbed(InteractorFacade arg0)
+    private void UnGrabbed(InteractableFacade bow)
     {
-        facade.Unsnap(); 
-    }
-
-    public void OnSnap(GameObject arrow)
-    {
-        snappedState = 1;
+        facade.Unsnap(); //when ungrabbing bow, unsnap the arrow
     }
 
     public void OnRelease(GameObject arrow)
     {
-        arrow.GetComponent<InteractableFacade>().LastUngrabbed.RemoveListener(UnGrabbed);
-        hand = null;
-
-        prevArrow = arrow;
-        snappedState = 2;
-        StartCoroutine(DisableNockTill(.1f));
-
+        StartCoroutine(DisableNockTill(arrow, .15f));
     }
 
-    private IEnumerator DisableNockTill(float secs)
+    private IEnumerator DisableNockTill(GameObject arrow,  float secs)
     {
+        Vector3 position = arrow.transform.position;
+        Vector3 forward = arrow.transform.forward; //save for before unlocked
+
         nockable = false;
-        prevArrow.GetComponent<Arrow>().SetDelayedFired(secs);
+        hand.Ungrabbed.RemoveListener(UnGrabbed);
+
+        yield return null; //wait a frame to let unlock settle
+
+        Rigidbody r = arrow.GetComponent<Rigidbody>();
+        r.position = position;
+        r.detectCollisions = false; //remove short term detections to avoid collisions with bow
+        r.isKinematic = false;
+        r.velocity = forward.normalized * GetPower() * MAX_SPEED;
+
+        snappedState = 0;
+        hand = null;
+
+        arrow.GetComponent<Arrow>().SetDelayedFired(secs); //to avoid re-nocking
 
         yield return new WaitForSeconds(secs);
+        r.detectCollisions = true; //to by pass the bow colldier
 
         nockable = true;
     }
 
-    private void Update()
+    void Update()
     {
         switch (snappedState)
         {
@@ -79,21 +92,12 @@ public class FollowOnSnap : MonoBehaviour
                 bowString.localPosition = stringStartPos + 
                     Mathf.Min ( (Vector3.Distance(hand.transform.position, bowString.parent.position) ) , .45f) * -Vector3.up;
                 break;
-            case 2:
-
-                facade.Unsnap(); // unsnapping again because the SnapZone caught the arrow after the first ungrab
-
-                Rigidbody r = prevArrow.GetComponent<Rigidbody>(); //janky because after release kinimatic gets set for some reasdon
-                r.isKinematic = false;
-                r.velocity = prevArrow.transform.forward * GetPower() * 25f;
-
-                snappedState = 0;
-                break;
         }
     }
 
     private float GetPower()
     {
+        //TODO consider normalizing in the future
         return Vector3.Distance(bowString.localPosition, stringStartPos); //can convert to a 0-1 Range based on max
     }
 }

@@ -1,16 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Tilia.Interactions.Interactables.Interactables;
+using Tilia.Interactions.Interactables.Interactables.Grab.Action;
 using UnityEngine;
-using Zinnia.Tracking.Collision;
 
 public class Arrow : MonoBehaviour
 {
     private bool isFired = false;
+    private bool canAnimate = false;
 
     private Rigidbody myPhys;
 
     public void SetDelayedFired(float sec)
     {
+        canAnimate = true;
         StartCoroutine(SetFired(sec));
     }
 
@@ -29,17 +31,20 @@ public class Arrow : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isFired)
+        if (canAnimate)
         {
             transform.LookAt ( transform.position + myPhys.velocity  , Vector3.up);
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnParticleCollision(GameObject other)
     {
         if (isFired)
         {
-            Debug.LogError(collision.contacts[0].otherCollider.gameObject.name);
+            canAnimate = false;
+            isFired = false; //TODO: decide if this should be false here or not
+            myPhys.velocity = Vector3.zero;
+            myPhys.isKinematic = true; 
         }
     }
 }
