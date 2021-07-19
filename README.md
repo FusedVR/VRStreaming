@@ -4,6 +4,10 @@
 
 This SDK package is built based on [Unity Render Streaming](https://docs.unity3d.com/Packages/com.unity.renderstreaming@2.0/manual/index.html) and [Unity WebRTC](https://docs.unity3d.com/Packages/com.unity.webrtc@2.4/manual/index.html). By using this package, you can stream any Unity scene from the the Unity Editor or a Standalone build to a WebXR client on the FusedVR Website : [https://fusedvr.com/rendering](https://fusedvr.com/rendering). To try this this package, it is as simple as dragging the included **Render Streaming Services** prefab into your Unity scene that you would like to stream and setting up the connect to the WebRTC server. 
 
+For an overview of this package, please refer to this video tutorial on the FusedVR Youtube Channel: [A First Look At CloudXR WebXR](https://youtu.be/cTd8VDqep1c)
+
+[![CloudXR WebXR](https://github.com/FusedVR/VRStreaming/blob/VRTKSample/Images~/first-look.jpg)](https://youtu.be/cTd8VDqep1c)
+
 # Setup
 
 1. Import this Github Repo as a Unity Package via the Unity Package Manager **Add from Git URL** : https://github.com/FusedVR/VRStreaming.git
@@ -47,3 +51,19 @@ ID 6 is what is used for all WebXR Input specific to VR. Within VR Input, we spe
 - ID 2 = Controller Axis Data (Joystick & Trackpad)
 
 The Raw Data from the Client is passed to VRInputManager, who is responsible for transmitting events based on the data mode recieved. Controller Input is then parsed by the ControllerInputManager, which has events that can be subscribed to for VR Input. 
+
+# Samples
+
+Provided with the package are two samples to help with quick testing the SDK : **HDRP & VRTK**. Both these samples can be imported via the Package Manager once you have imported the SDK into your Unity project. 
+
+The first one uses the Unity HDRP Built In Template to show case streaming a scene with the [High Definition Render Pipeline](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@11.0/manual/index.html) into WebXR. This one of the very few ways to play a HDRP game / app within Oculus Quest / WebXR. Provided within the sample is an Editor script to automatically import the High Definition Render Pipeline package. However, if this auto-import fails for some reason, please import the package yourself. 
+
+![High Definition Render Pipeline](https://github.com/FusedVR/VRStreaming/blob/VRTKSample/Images~/hdrpvr.png)
+
+The second provided sample shows integration with [VRTK](https://www.vrtk.io/) to showcase how to utilize the input that is streamed from the WebXR client into Unity. Using this input, we can build an Archery Sandbox. Simmply pick up the bow and then grab arrows from behind your back to begin shooting. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
+
+- **io.extendreality.tilia.camerarigs.trackedalias.unity**
+- **io.extendreality.tilia.interactions.interactables.unity**
+- **io.extendreality.tilia.interactions.snapzone.unity
+
+![VRTK Archery](https://github.com/FusedVR/VRStreaming/blob/VRTKSample/Images~/archery-sample.png)
