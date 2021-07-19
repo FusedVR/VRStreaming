@@ -101,7 +101,7 @@ namespace FusedVR.VRStreaming
                             BitConverter.ToSingle(bytes, 11), BitConverter.ToSingle(bytes, 19));
 
                         Quaternion rot = new Quaternion(BitConverter.ToSingle(bytes, 27) , BitConverter.ToSingle(bytes, 35),
-                            -BitConverter.ToSingle(bytes, 43), -BitConverter.ToSingle(bytes, 51));
+                            -BitConverter.ToSingle(bytes, 43), -BitConverter.ToSingle(bytes, 51)); //flip z and w due to different coordinated system
                         VRPoseEvent.Invoke(device_type, pos, rot);
                         break;
                     case VRDataType.Button:
