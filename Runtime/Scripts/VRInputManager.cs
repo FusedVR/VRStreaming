@@ -52,7 +52,7 @@ namespace FusedVR.VRStreaming
         /// Wrapper class for the Unity Event to pass custom data. 
         /// </summary>
         [System.Serializable]
-        public class VRPoseData : UnityEvent<Source, Vector3, Vector3> {
+        public class VRPoseData : UnityEvent<Source, Vector3, Quaternion> {
 
         }
 
@@ -100,8 +100,8 @@ namespace FusedVR.VRStreaming
                         Vector3 pos = new Vector3(BitConverter.ToSingle(bytes, 3),
                             BitConverter.ToSingle(bytes, 11), BitConverter.ToSingle(bytes, 19));
 
-                        Vector3 rot = new Vector3(Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 27),
-                            Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 35), Mathf.Rad2Deg * BitConverter.ToSingle(bytes, 43));
+                        Quaternion rot = new Quaternion(BitConverter.ToSingle(bytes, 27) , BitConverter.ToSingle(bytes, 35),
+                            -BitConverter.ToSingle(bytes, 43), -BitConverter.ToSingle(bytes, 51));
                         VRPoseEvent.Invoke(device_type, pos, rot);
                         break;
                     case VRDataType.Button:

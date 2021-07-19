@@ -23,12 +23,12 @@ namespace FusedVR.VRStreaming
         /// <summary>
         /// Apply the VR Positional and Rotational Data from the Client onto the Server.
         /// </summary>
-        public void ApplyData(VRInputManager.Source id, Vector3 position, Vector3 rotation)
+        public void ApplyData(VRInputManager.Source id, Vector3 position, Quaternion rotation)
         {
             if (index == id) //check if the data is from the correct source
             {
                 transform.localPosition = new Vector3(position.x, position.y, -position.z); //apply position
-                transform.rotation = Quaternion.Euler(-rotation.x, -rotation.y, rotation.z); //apply rotation - not coordinate system change
+                transform.rotation = rotation; //apply rotation - note coordinate system change
             }
         }
     }
