@@ -64,6 +64,6 @@ The second provided sample shows integration with [VRTK](https://www.vrtk.io/) t
 
 - **io.extendreality.tilia.camerarigs.trackedalias.unity**
 - **io.extendreality.tilia.interactions.interactables.unity**
-- **io.extendreality.tilia.interactions.snapzone.unity
+- **io.extendreality.tilia.interactions.snapzone.unity**
 
 ![VRTK Archery](https://github.com/FusedVR/VRStreaming/blob/VRTKSample/Images~/archery-sample.png)
