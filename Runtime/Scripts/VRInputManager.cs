@@ -13,15 +13,19 @@ using Unity.RenderStreaming;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FusedVR.VRStreaming
-{
+namespace FusedVR.VRStreaming {
     /// <summary>
     /// The manager class is responsible for handling the source data from the client and distributing accordingly
     /// This data will be recieved from the Broadcast channel on the Data Channel
     /// Since this is manages the Data Channel, it can be used to send and recieve data from the client
     /// </summary>
-    public class VRInputManager : InputChannelReceiverBase
-    {
+    public class VRInputManager : InputChannelReceiverBase {
+        /// <summary>
+        /// Camera that are used for VR Render Streaming
+        /// </summary>
+        [Tooltip("The Cameras that are responsible for VR Render Streaming")]
+        public Camera[] VRCameras;
+
         #region Constants
         /// <summary>
         /// The Data Format  that we are getting from the VR headset
@@ -29,7 +33,8 @@ namespace FusedVR.VRStreaming
         public enum VRDataType {
             PosRot,
             Button,
-            Axis
+            Axis,
+            Display
         }
 
         /// <summary>
@@ -80,8 +85,7 @@ namespace FusedVR.VRStreaming
         /// Public Method to send string data over the data channel for the client to respond to. 
         /// Currently, the client does not do anything with data that is recieved and any such action would need to be implemented
         /// </summary>
-        public void SendData(string msg)
-        {
+        public void SendData(string msg) {
             base.Channel.Send(msg);
         }
 
@@ -89,27 +93,26 @@ namespace FusedVR.VRStreaming
         /// Recieve Data from the client via the Data Channel
         /// Based on the first byte, this method determines how to process the data and what events to expose for the application to listen to
         /// </summary>
-        protected override void OnMessage(byte[] bytes)
-        {
+        protected override void OnMessage(byte[] bytes) {
             if (bytes[0] == VR_DEVICE_ID) //VR Device Data
-            { 
+            {
                 int data_type = bytes[1]; //get input data source
-                switch ( (VRDataType) data_type) {
+                switch ((VRDataType)data_type) {
                     case VRDataType.PosRot:
-                        Source device_type = (Source) bytes[2]; //get source
+                        Source device_type = (Source)bytes[2]; //get source
                         Vector3 pos = new Vector3(BitConverter.ToSingle(bytes, 3),
                             BitConverter.ToSingle(bytes, 11), BitConverter.ToSingle(bytes, 19));
 
-                        Quaternion rot = new Quaternion(BitConverter.ToSingle(bytes, 27) , BitConverter.ToSingle(bytes, 35),
+                        Quaternion rot = new Quaternion(BitConverter.ToSingle(bytes, 27), BitConverter.ToSingle(bytes, 35),
                             -BitConverter.ToSingle(bytes, 43), -BitConverter.ToSingle(bytes, 51)); //flip z and w due to different coordinated system
                         VRPoseEvent.Invoke(device_type, pos, rot);
                         break;
                     case VRDataType.Button:
-                        ButtonDataEvent?.Invoke((Source) bytes[2], bytes[3], BitConverter.ToBoolean(bytes, 4), 
+                        ButtonDataEvent?.Invoke((Source)bytes[2], bytes[3], BitConverter.ToBoolean(bytes, 4),
                             BitConverter.ToBoolean(bytes, 5));
                         break;
                     case VRDataType.Axis:
-                        if ( BitConverter.ToBoolean(bytes, 3) || BitConverter.ToBoolean(bytes, 12) ) { //if trackpad changed
+                        if (BitConverter.ToBoolean(bytes, 3) || BitConverter.ToBoolean(bytes, 12)) { //if trackpad changed
                             AxisDataEvent?.Invoke((Source)bytes[2], 1, BitConverter.ToSingle(bytes, 4),
                                 BitConverter.ToSingle(bytes, 13));
                         }
@@ -120,8 +123,18 @@ namespace FusedVR.VRStreaming
                         }
 
                         break;
+                    case VRDataType.Display:
+                        int width = (int)BitConverter.ToUInt32(bytes, 2);
+                        int height = (int)BitConverter.ToUInt32(bytes, 6);
+                        foreach (Camera cam in VRCameras) {
+                            cam.targetTexture.Release();
+                            cam.targetTexture.width = width / 2; // half since the the width covers both eyes
+                            cam.targetTexture.height = height;
+                        }
+
+                        break;
                 }
-                
+
             }
         }
         #endregion
