@@ -22,7 +22,7 @@ For an overview of this package, please refer to this video tutorial on the Fuse
 
 # Camera Eye Resolution
 
-At this time, the WebXR Client does not send VR Device infomration from WebXR to Unity. As such a default IPD of 64mm is used and a resolution of 1440x1600 per eye (resolution for original Oculus Quest). Until device info is implemented, if you like, you may increase the resolution per eye to match the VR device you are using. To do so, simply change the Streaming Size Resolution denoted on the Camera Streamer Component for both the Left and Right Eye.
+At this time, the WebXR Client sends the resolution required to render per eye based on the connected VR device to Unity in order to adapt the resolution that is sent. However, IPD data is not sent and is hard-coded to a standard default IPD of 64mm. If you would like to adjust the resolution yourself, you may change the [VRInputManager](https://github.com/FusedVR/VRStreaming/blob/master/Runtime/Scripts/VRInputManager.cs) and change the code related to the VRDataType.Display.
 
 # Cloud Support
 
@@ -56,7 +56,7 @@ The Raw Data from the Client is passed to VRInputManager, who is responsible for
 
 Provided with the package are two samples to help with quick testing the SDK : **HDRP & VRTK**. Both these samples can be imported via the Package Manager once you have imported the SDK into your Unity project. 
 
-The first one uses the Unity HDRP Built In Template to show case streaming a scene with the [High Definition Render Pipeline](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@11.0/manual/index.html) into WebXR. This one of the very few ways to play a HDRP game / app within Oculus Quest / WebXR. Provided within the sample is an Editor script to automatically import the High Definition Render Pipeline package. However, if this auto-import fails for some reason, please import the package yourself. 
+The first one uses the Unity HDRP Built In Template to show case streaming a scene with the [High Definition Render Pipeline](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@11.0/manual/index.html) into WebXR. This one of the very few ways to play a HDRP game / app within Oculus Quest / WebXR. In order to utilize this sample, import the High Definition RP package from the Unity registry. 
 
 ![High Definition Render Pipeline](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/hdrpvr.png)
 

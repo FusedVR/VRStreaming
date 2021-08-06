@@ -49,6 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   local: 0
   label: 
+  VRCameras:
+  - {fileID: 1793859182864016192}
+  - {fileID: 1793859183251251332}
   VRPoseEvent:
     m_PersistentCalls:
       m_Calls:
@@ -97,6 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c998faeffae79b46b1af9ae4fc73938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VRButtonEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  VRAxisEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1793859182664022047
 GameObject:
   m_ObjectHideFlags: 0
