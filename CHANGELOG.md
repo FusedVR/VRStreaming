@@ -4,6 +4,28 @@ All notable changes to com.unity.renderstreaming package will be documented in t
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2021-08-10
+
+### Changed
+
+- Listen for Camera Resolution Data about the connected VR headset and dynamically update resolution accordingly
+- Removed Editor Script to auto-import HDRP as it was triggering an infinite import loop
+
+### Added
+
+- Added Package Requirement for Newton JSON
+- Added New GameID to allow the ability to filter for clients looking for a specific game
+
+## [0.2.1] - 2021-07-18
+
+### Changed
+
+- Updated Rotation data to use WebXR Quaternions instead of Euler Angles. This helps avoid Gimbal Lock in certain cases when using archery
+
+### Added
+
+- Added New VRTK Sample to highlight how to use Input from the WebXR Client. Can be imported via the Package Manager Samples
+
 ## [0.2.0] - 2021-07-12
 
 ### Changed
