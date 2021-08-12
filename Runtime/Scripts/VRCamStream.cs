@@ -7,6 +7,12 @@ namespace FusedVR.VRStreaming {
     public class VRCamStream : CameraStreamer {
         private string mainConnection = "";
 
+        [SerializeField]
+        private ulong BITRATE = 12582912 ; //bitrate in Mbs
+
+        [SerializeField]
+        private uint FRAMERATE = 90; //framerate target
+
         // Start is called before the first frame update
         void Start() {
             OnStartedStream += StartStream;
@@ -23,9 +29,12 @@ namespace FusedVR.VRStreaming {
                 if (Senders.TryGetValue(mainConnection, out var sender)) {
                     RTCRtpSendParameters parameters = sender.GetParameters();
                     foreach (var encoding in parameters.encodings) {
-                        Debug.Log("Min Bitrate : " + encoding.minBitrate);
-                        Debug.Log("Max Bitrate : " + encoding.maxBitrate);
+                        encoding.minBitrate = BITRATE;
+                        encoding.maxBitrate = BITRATE;
+                        encoding.maxFramerate = FRAMERATE;
                     }
+
+                    sender.SetParameters(parameters);
                 }
 
                 yield return new WaitForSeconds(2f);
