@@ -126,11 +126,11 @@ namespace FusedVR.VRStreaming {
                     case VRDataType.Display:
                         int width = (int)BitConverter.ToUInt32(bytes, 2);
                         int height = (int)BitConverter.ToUInt32(bytes, 6);
-                        foreach (Camera cam in VRCameras) {
-                            cam.targetTexture.Release();
-                            cam.targetTexture.width = width / 2; // half since the the width covers both eyes
-                            cam.targetTexture.height = height;
-                        }
+                        //foreach (Camera cam in VRCameras) {
+                        //    cam.targetTexture.Release();
+                        //    cam.targetTexture.width = width;
+                        //    cam.targetTexture.height = height;
+                        //}
 
                         break;
                 }
