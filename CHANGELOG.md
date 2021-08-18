@@ -4,6 +4,18 @@ All notable changes to com.unity.renderstreaming package will be documented in t
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2021-08-17
+
+### Changed
+
+- **MAJOR** Combined left eye and right eye into a single render texture on one video track to increase encoding performance & maintain synconization between eyes
+- Removed Video Resizing as this implementation needs to be re-evaluated
+- Increased default resolution to 2700 x 1500 (both eyes)
+
+### Added
+
+- Added new VRCamStreaming component that exposes bitrate and framerate encoder parameters
+
 ## [0.3.0] - 2021-08-10
 
 ### Changed

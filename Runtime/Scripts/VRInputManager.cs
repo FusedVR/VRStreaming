@@ -24,7 +24,7 @@ namespace FusedVR.VRStreaming {
         /// Camera that are used for VR Render Streaming
         /// </summary>
         [Tooltip("The Cameras that are responsible for VR Render Streaming")]
-        public Camera[] VRCameras;
+        public VRCamStream VRCameras;
 
         #region Constants
         /// <summary>
@@ -126,11 +126,12 @@ namespace FusedVR.VRStreaming {
                     case VRDataType.Display:
                         int width = (int)BitConverter.ToUInt32(bytes, 2);
                         int height = (int)BitConverter.ToUInt32(bytes, 6);
-                        foreach (Camera cam in VRCameras) {
-                            cam.targetTexture.Release();
-                            cam.targetTexture.width = width / 2; // half since the the width covers both eyes
-                            cam.targetTexture.height = height;
-                        }
+                        //foreach (Camera cam in VRCameras) {
+                        //    cam.targetTexture.Release();
+                        //    cam.targetTexture.width = width;
+                        //    cam.targetTexture.height = height;
+                        //}
+                        //TODO: need to find proper way to resize texture based on data so that the video channel updates
 
                         break;
                 }

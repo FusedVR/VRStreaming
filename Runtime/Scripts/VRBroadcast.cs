@@ -114,9 +114,16 @@ namespace FusedVR.VRStreaming {
         private string GetGameID(string sdp) {
             string[] parameters = sdp.Split('\n'); //split on new line
             string customParam = parameters[parameters.Length - 2].Split('=')[1]; //get line before last new line and split on =
-            string value = ""; //get dictionary value
-            JsonConvert.DeserializeObject<Dictionary<string, string>>(customParam).TryGetValue("user", out value);
-            return value;
+
+            Dictionary<string, string> jsonMap = JsonConvert.DeserializeObject<Dictionary<string, string>>(customParam);
+            if (jsonMap != null) {
+                string value = ""; //get dictionary value
+                jsonMap.TryGetValue("user", out value);
+                return value;
+            } else {
+                return ""; //TODO: check if this is a valid fail case
+            }
+
         }
     }
 }
