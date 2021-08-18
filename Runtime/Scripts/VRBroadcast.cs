@@ -115,7 +115,7 @@ namespace FusedVR.VRStreaming {
             string[] parameters = sdp.Split('\n'); //split on new line
             string customParam = parameters[parameters.Length - 2].Split('=')[1]; //get line before last new line and split on =
             string value = ""; //get dictionary value
-            Debug.LogError("TODO: add null check in case x is missing");
+            Debug.LogError("TODO: add null check in case x is missing"); //this is because x defines custom data game ID
             JsonConvert.DeserializeObject<Dictionary<string, string>>(customParam).TryGetValue("user", out value);
             return value;
         }
