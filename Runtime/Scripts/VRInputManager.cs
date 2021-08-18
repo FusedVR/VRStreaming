@@ -24,7 +24,7 @@ namespace FusedVR.VRStreaming {
         /// Camera that are used for VR Render Streaming
         /// </summary>
         [Tooltip("The Cameras that are responsible for VR Render Streaming")]
-        public Camera[] VRCameras;
+        public VRCamStream VRCameras;
 
         #region Constants
         /// <summary>
@@ -131,6 +131,7 @@ namespace FusedVR.VRStreaming {
                         //    cam.targetTexture.width = width;
                         //    cam.targetTexture.height = height;
                         //}
+                        //TODO: need to find proper way to resize texture based on data so that the video channel updates
 
                         break;
                 }
