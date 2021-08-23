@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1793859182182230346}
   - component: {fileID: 1793859182182230347}
   - component: {fileID: 1270632014}
-  - component: {fileID: 1084652618}
   m_Layer: 0
   m_Name: WebVR Camera
   m_TagString: Untagged
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   local: 0
   label: 
-  VRCameras: {fileID: 1084652618}
+  VRCameras: {fileID: 0}
   VRPoseEvent:
     m_PersistentCalls:
       m_Calls:
@@ -105,24 +104,6 @@ MonoBehaviour:
   VRAxisEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1084652618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1793859182182230341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88dc1ef0a0e7d1b4a897f095b852ab38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  streamingSize: {x: 2700, y: 1500}
-  leftEye: {fileID: 1793859182864016192}
-  rightEye: {fileID: 1793859183251251332}
-  depth: 0
-  antiAliasing: 1
-  BIT_RATE: 9000000
 --- !u!1 &1793859182664022047
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1793859182864016220}
   - component: {fileID: 1793859182864016192}
+  - component: {fileID: 5657891410645623095}
   m_Layer: 0
   m_Name: Left Eye Render Streaming Camera
   m_TagString: Untagged
@@ -337,6 +319,24 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &5657891410645623095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793859182864016223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88dc1ef0a0e7d1b4a897f095b852ab38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  streamingSize: {x: 1350, y: 1500}
+  cameras:
+  - {fileID: 1793859182864016192}
+  depth: 0
+  antiAliasing: 1
+  BIT_RATE: 9000000
 --- !u!1 &1793859182968099965
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +530,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1793859183251251333}
   - component: {fileID: 1793859183251251332}
+  - component: {fileID: 2367005362525901591}
   m_Layer: 0
   m_Name: Right Eye Render Streaming Camera
   m_TagString: Untagged
@@ -594,6 +595,24 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &2367005362525901591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793859183251251330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88dc1ef0a0e7d1b4a897f095b852ab38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  streamingSize: {x: 1350, y: 1500}
+  cameras:
+  - {fileID: 1793859183251251332}
+  depth: 0
+  antiAliasing: 1
+  BIT_RATE: 9000000
 --- !u!1 &1793859183478774782
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,7 +736,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameID: 
   streams:
-  - {fileID: 1084652618}
+  - {fileID: 5657891410645623095}
+  - {fileID: 2367005362525901591}
   - {fileID: 1793859183478774780}
   - {fileID: 1793859182182230347}
 --- !u!1 &9010668948091610382
