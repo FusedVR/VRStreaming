@@ -7,12 +7,8 @@ namespace FusedVR.VRStreaming {
 
         #region Variables
         [SerializeField]
-        [Tooltip("The Left Eye of the VR Camera")]
-        private Camera leftEye;
-
-        [SerializeField]
-        [Tooltip("The Right Eye of the VR Camera")]
-        private Camera rightEye;
+        [Tooltip("The Cameras to combine together for the render texture")]
+        private Camera[] cameras;
 
         [SerializeField]
         [Tooltip("Defines the depth buffer used for render streaming (0, 16, 24, 32)")]
@@ -31,10 +27,7 @@ namespace FusedVR.VRStreaming {
         /// </summary>
         private string mainConnection = "";
 
-
         public const uint MAX_FRAMERATE = 90; //default max framerate target
-
-        public override Texture SendTexture => leftEye.targetTexture; //should be the same as right eye
         #endregion
 
         #region Events
@@ -60,11 +53,11 @@ namespace FusedVR.VRStreaming {
             };
             rt.Create();
 
-            leftEye.targetTexture = rt;
-            leftEye.rect = new Rect(Vector2.zero, new Vector2(0.5f, 1f));
-
-            rightEye.targetTexture = rt;
-            rightEye.rect = new Rect(new Vector2(0.5f, 0f), new Vector2(0.5f, 1f));
+            // divide cameras into n sections over the canvas
+            for ( int i = 0; i < cameras.Length; i++) {
+                cameras[i].targetTexture = rt;
+                cameras[i].rect = new Rect(new Vector2(i / cameras.Length, 0f), new Vector2(1 / cameras.Length, 1f)); 
+            }
 
             return new VideoStreamTrack("VR Camera", rt);
         }
