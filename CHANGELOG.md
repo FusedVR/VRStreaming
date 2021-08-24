@@ -4,6 +4,12 @@ All notable changes to com.unity.renderstreaming package will be documented in t
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2021-08-23
+
+### Changed
+
+- Reverting changes where left and right eye are combined due to encoder bug that limits the size of the video render texture. This is expected to be fixed soon and once fixed, will revert this change to a single video stream. 
+
 ## [0.4.0] - 2021-08-17
 
 ### Changed
