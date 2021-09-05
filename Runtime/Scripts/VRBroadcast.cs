@@ -22,7 +22,14 @@ namespace FusedVR.VRStreaming {
     public class VRBroadcast : SignalingHandlerBase,
         IOfferHandler, IAddChannelHandler, IDisconnectHandler, IDeletedConnectionHandler {
 
+        // On Offer Create VR Prefab
+        // Set Limit on number of connections
+        // Then VR Prefab can be swapped based on number of connections
+
         #region Variables
+
+        public static VRBroadcast Instance { get; private set; } //Singleton Broadcast Manager
+
         /// <summary>
         /// Check if client is listening for the same GameID
         /// </summary>
@@ -30,17 +37,28 @@ namespace FusedVR.VRStreaming {
         [Tooltip("This ID should match the input from the Web Browser. Leave blank to match against anything")]
         private string gameID = "";
 
-        /// <summary>
-        /// Streams (video, audio, data) that need to be sent to the client
-        /// </summary>
         [SerializeField]
-        private List<Component> streams = new List<Component>();
+        [Tooltip("The maximum number of connections you would like to connect to this server.")]
+        private int maxConnections = 1;
+
+        [SerializeField]
+        [Tooltip("The player prefabs to be spawned upon a connection.")]
+        public ClientStreams[] playerPrefabs;
 
         /// <summary>
         /// List of all connectionIds that are connected
         /// </summary>
-        private List<string> connectionIds = new List<string>();
+        private Dictionary<string , ClientStreams> connections = new Dictionary<string, ClientStreams>();
         #endregion
+
+        private void Awake() {
+            //Singleton
+            if (Instance != null && Instance != this) {
+                Destroy(gameObject);
+            } else {
+                Instance = this;
+            }
+        }
 
         #region Disconnect
         public void OnDeletedConnection(SignalingEventData eventData) {
@@ -52,19 +70,11 @@ namespace FusedVR.VRStreaming {
         }
 
         private void Disconnect(string connectionId) {
-            if (!connectionIds.Contains(connectionId))
+            if (!connections.ContainsKey(connectionId))
                 return;
-            connectionIds.Remove(connectionId);
 
-            foreach (var source in streams.OfType<IStreamSource>()) {
-                source.SetSender(connectionId, null);
-            }
-            foreach (var receiver in streams.OfType<IStreamReceiver>()) {
-                receiver.SetReceiver(connectionId, null);
-            }
-            foreach (var channel in streams.OfType<IDataChannel>()) {
-                channel.SetChannel(connectionId, null);
-            }
+            connections[connectionId].DeleteConnection(connectionId); //remove streams
+            connections.Remove(connectionId); //remove dictionary
         }
         #endregion
 
@@ -80,25 +90,21 @@ namespace FusedVR.VRStreaming {
                 return;
             }
 
-            if (connectionIds.Count >= 1) { //if there is more than 1 connection, let's skip this offer
-                Debug.LogWarning($"Already answered this connectionId : {connectionIds[0]}");
+            if (connections.Count >= maxConnections) { //if there is more than 1 connection, let's skip this offer
+                Debug.LogWarning($"Reached Maxed Connections : {connections.Count}");
                 return;
             }
 
-            if (connectionIds.Contains(data.connectionId)) { //if connection is already connected, skip offer
+            if (connections.ContainsKey(data.connectionId)) { //if connection is already connected, skip offer
                 Debug.LogWarning($"Already answered this connectionId : {data.connectionId}");
                 return;
             }
-            connectionIds.Add(data.connectionId); //confirm we will use this connection
 
-            foreach (var source in streams.OfType<IStreamSource>()) {
-                var transceiver = AddTrack(data.connectionId, source.Track);
-                source.SetSender(data.connectionId, transceiver.Sender);
-            }
-            foreach (var channel in streams.OfType<IDataChannel>().Where(c => c.IsLocal)) {
-                var _channel = CreateChannel(data.connectionId, channel.Label);
-                channel.SetChannel(data.connectionId, _channel);
-            }
+            ClientStreams player = Instantiate(playerPrefabs[0]); //TODO : this is a test!
+            player.SetFullConnection(data.connectionId, this);
+
+            connections.Add(data.connectionId , player); //confirm we will use this connection
+
             SendAnswer(data.connectionId); //accept offer with an answer
         }
 
@@ -106,9 +112,9 @@ namespace FusedVR.VRStreaming {
         /// Apply Data Channel
         /// </summary>
         public void OnAddChannel(SignalingEventData data) {
-            var channel = streams.OfType<IDataChannel>().
-                FirstOrDefault(r => r.Channel == null && !r.IsLocal);
-            channel?.SetChannel(data.connectionId, data.channel);
+            if ( connections.ContainsKey(data.connectionId) ) {
+                connections[data.connectionId].SetDataChannel(data);
+            }
         }
 
         private string GetGameID(string sdp) {
