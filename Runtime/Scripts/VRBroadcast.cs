@@ -22,10 +22,6 @@ namespace FusedVR.VRStreaming {
     public class VRBroadcast : SignalingHandlerBase,
         IOfferHandler, IAddChannelHandler, IDisconnectHandler, IDeletedConnectionHandler {
 
-        // On Offer Create VR Prefab
-        // Set Limit on number of connections
-        // Then VR Prefab can be swapped based on number of connections
-
         #region Variables
 
         public static VRBroadcast Instance { get; private set; } //Singleton Broadcast Manager
@@ -100,12 +96,23 @@ namespace FusedVR.VRStreaming {
                 return;
             }
 
-            ClientStreams player = Instantiate(playerPrefabs[0]); //TODO : this is a test!
-            player.SetFullConnection(data.connectionId, this);
+            //only accept answer if there is a viable set of connections
+            if (playerPrefabs.Length > 0) {
+                int playerID = connections.Count % playerPrefabs.Length;
 
-            connections.Add(data.connectionId , player); //confirm we will use this connection
+                ClientStreams player = playerPrefabs[playerID];
+                if ( player.gameObject.scene.rootCount == 0 // if player is a prefab or more connections than prefabs
+                    || connections.Count >= playerPrefabs.Length) {
+                    player = Instantiate(playerPrefabs[playerID]);
+                    player.isDeletable = true; //we should clean up prefabs
+                }
 
-            SendAnswer(data.connectionId); //accept offer with an answer
+                player.SetFullConnection(data.connectionId, this);
+                connections.Add(data.connectionId, player); //confirm we will use this connection
+
+                SendAnswer(data.connectionId); //accept offer with an answer
+            }
+
         }
 
         /// <summary>
@@ -127,7 +134,7 @@ namespace FusedVR.VRStreaming {
                 jsonMap.TryGetValue("user", out value);
                 return value;
             } else {
-                return ""; //TODO: check if this is a valid fail case
+                return ""; //TODO: check if this is a valid fail case as in do we want to connect to anything?
             }
 
         }
