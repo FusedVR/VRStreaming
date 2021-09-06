@@ -9,7 +9,6 @@
  */
 
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Unity.RenderStreaming;
 using Newtonsoft.Json;
@@ -56,7 +55,7 @@ namespace FusedVR.VRStreaming {
             }
         }
 
-        #region Disconnect
+        #region WebRTC Events
         public void OnDeletedConnection(SignalingEventData eventData) {
             Disconnect(eventData.connectionId);
         }
@@ -72,7 +71,6 @@ namespace FusedVR.VRStreaming {
             connections[connectionId].DeleteConnection(connectionId); //remove streams
             connections.Remove(connectionId); //remove dictionary
         }
-        #endregion
 
         /// <summary>
         /// Event that is called when an Offer is made by a client
@@ -81,7 +79,7 @@ namespace FusedVR.VRStreaming {
         public void OnOffer(SignalingEventData data) {
 
             string inputGID = GetGameID(data.sdp);
-            if ( gameID.Length != 0 && inputGID != gameID) {
+            if (gameID.Length != 0 && inputGID != gameID) {
                 Debug.Log($"Offer Doesn't Match My GameID : {inputGID}");
                 return;
             }
@@ -101,7 +99,7 @@ namespace FusedVR.VRStreaming {
                 int playerID = connections.Count % playerPrefabs.Length;
 
                 ClientStreams player = playerPrefabs[playerID];
-                if ( player.gameObject.scene.rootCount == 0 // if player is a prefab or more connections than prefabs
+                if (player.gameObject.scene.rootCount == 0 // if player is a prefab or more connections than prefabs
                     || connections.Count >= playerPrefabs.Length) {
                     player = Instantiate(playerPrefabs[playerID]);
                     player.isDeletable = true; //we should clean up prefabs
@@ -112,15 +110,25 @@ namespace FusedVR.VRStreaming {
 
                 SendAnswer(data.connectionId); //accept offer with an answer
             }
-
         }
 
         /// <summary>
         /// Apply Data Channel
         /// </summary>
         public void OnAddChannel(SignalingEventData data) {
-            if ( connections.ContainsKey(data.connectionId) ) {
+            if (connections.ContainsKey(data.connectionId)) {
                 connections[data.connectionId].SetDataChannel(data);
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Broadcast Data Message to all Clients
+        /// </summary>
+        public void BroadcastDataMessage(string evt, string msg) {
+            foreach (string key in connections.Keys) {
+                connections[key].SendDataMessage(evt, msg); //send message to client
             }
         }
 

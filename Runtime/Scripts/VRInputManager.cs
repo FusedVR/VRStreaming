@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Text;
 using Unity.RenderStreaming;
 using UnityEngine;
 using UnityEngine.Events;
@@ -135,7 +136,8 @@ namespace FusedVR.VRStreaming {
 
                         break;
                 }
-
+            } else {
+                Debug.LogError(Encoding.UTF8.GetString(bytes, 0, bytes.Length));
             }
         }
         #endregion

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unity.RenderStreaming;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace FusedVR.VRStreaming {
     /// <summary>
@@ -55,6 +56,19 @@ namespace FusedVR.VRStreaming {
             foreach (StreamSourceBase source in streams) {
                 source.Track.Enabled = view;
             }
+        }
+
+        /// <summary>
+        /// Send Event Data to this Client to be processed on the data channel
+        /// </summary>
+        public void SendDataMessage(string evt, string data) {
+            Dictionary<string, string> payload = new Dictionary<string, string> 
+            {
+                { "event", evt },
+                { "payload" , data}
+            };
+            string json = JsonConvert.SerializeObject(payload, Formatting.Indented);
+            dataChannel.Channel.Send( json ); //send over the data channel
         }
 
         /// <summary>
