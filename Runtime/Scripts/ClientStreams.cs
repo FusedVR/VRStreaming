@@ -10,12 +10,6 @@ namespace FusedVR.VRStreaming {
     public class ClientStreams : MonoBehaviour
     {
         /// <summary>
-        /// Whether to Delete this Instance if the connection is dropped
-        /// </summary>
-        [Tooltip("Whether to Delete this Instance if the connection is dropped")]
-        public bool isDeletable = false;
-
-        /// <summary>
         /// Data Channel for the client
         /// </summary>
         [SerializeField]
@@ -91,10 +85,6 @@ namespace FusedVR.VRStreaming {
                 dataChannel.SetChannel(myConnection, null);
 
                 myConnection = null; //remove ID
-
-                if (isDeletable) {
-                    Destroy(gameObject); //destroy self 
-                }
             }
         }
     }

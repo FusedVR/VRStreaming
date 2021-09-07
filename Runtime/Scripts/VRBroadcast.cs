@@ -43,7 +43,12 @@ namespace FusedVR.VRStreaming {
         /// <summary>
         /// List of all connectionIds that are connected
         /// </summary>
-        private Dictionary<string , ClientStreams> connections = new Dictionary<string, ClientStreams>();
+        private Dictionary<string , ClientStreams> activeConnections = new Dictionary<string, ClientStreams>();
+
+        /// <summary>
+        /// List of all connectionIds that have connected to this server
+        /// </summary>
+        private Queue<ClientStreams> priorPlayers = new Queue<ClientStreams>();
         #endregion
 
         private void Awake() {
@@ -65,11 +70,15 @@ namespace FusedVR.VRStreaming {
         }
 
         private void Disconnect(string connectionId) {
-            if (!connections.ContainsKey(connectionId))
+            if (!activeConnections.ContainsKey(connectionId))
                 return;
 
-            connections[connectionId].DeleteConnection(connectionId); //remove streams
-            connections.Remove(connectionId); //remove dictionary
+            ClientStreams client = activeConnections[connectionId];
+            client.DeleteConnection(connectionId); //remove streams
+            activeConnections.Remove(connectionId); //remove dictionary
+
+            client.gameObject.SetActive(false);
+            priorPlayers.Enqueue(client);
         }
 
         /// <summary>
@@ -84,29 +93,31 @@ namespace FusedVR.VRStreaming {
                 return;
             }
 
-            if (connections.Count >= maxConnections) { //if there is more than 1 connection, let's skip this offer
-                Debug.LogWarning($"Reached Maxed Connections : {connections.Count}");
+            if (activeConnections.Count >= maxConnections) { //if there is more than 1 connection, let's skip this offer
+                Debug.LogWarning($"Reached Maxed Connections : {activeConnections.Count}");
                 return;
             }
 
-            if (connections.ContainsKey(data.connectionId)) { //if connection is already connected, skip offer
+            if (activeConnections.ContainsKey(data.connectionId)) { //if connection is already connected, skip offer
                 Debug.LogWarning($"Already answered this connectionId : {data.connectionId}");
                 return;
             }
 
             //only accept answer if there is a viable set of connections
             if (playerPrefabs.Length > 0) {
-                int playerID = connections.Count % playerPrefabs.Length;
-
+                int playerID = activeConnections.Count % playerPrefabs.Length; //get remainder for mod
                 ClientStreams player = playerPrefabs[playerID];
-                if (player.gameObject.scene.rootCount == 0 // if player is a prefab or more connections than prefabs
-                    || connections.Count >= playerPrefabs.Length) {
+
+                if (priorPlayers.Count > 0) { // if player has previously connected
+                    player = priorPlayers.Dequeue() ;
+                    player.gameObject.SetActive(true);
+                } else if (player.gameObject.scene.rootCount == 0 // if player is a prefab or more connections than prefabs
+                    || activeConnections.Count >= playerPrefabs.Length) {
                     player = Instantiate(playerPrefabs[playerID]);
-                    player.isDeletable = true; //we should clean up prefabs
                 }
 
                 player.SetFullConnection(data.connectionId, this);
-                connections.Add(data.connectionId, player); //confirm we will use this connection
+                activeConnections.Add(data.connectionId, player); //confirm we will use this connection
 
                 SendAnswer(data.connectionId); //accept offer with an answer
             }
@@ -116,8 +127,8 @@ namespace FusedVR.VRStreaming {
         /// Apply Data Channel
         /// </summary>
         public void OnAddChannel(SignalingEventData data) {
-            if (connections.ContainsKey(data.connectionId)) {
-                connections[data.connectionId].SetDataChannel(data);
+            if (activeConnections.ContainsKey(data.connectionId)) {
+                activeConnections[data.connectionId].SetDataChannel(data);
             }
         }
 
@@ -127,8 +138,8 @@ namespace FusedVR.VRStreaming {
         /// Broadcast Data Message to all Clients
         /// </summary>
         public void BroadcastDataMessage(string evt, string msg) {
-            foreach (string key in connections.Keys) {
-                connections[key].SendDataMessage(evt, msg); //send message to client
+            foreach (string key in activeConnections.Keys) {
+                activeConnections[key].SendDataMessage(evt, msg); //send message to client
             }
         }
 

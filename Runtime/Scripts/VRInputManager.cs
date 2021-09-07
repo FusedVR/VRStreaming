@@ -48,9 +48,14 @@ namespace FusedVR.VRStreaming {
         }
 
         /// <summary>
-        /// The Base ID for Recieving VR Data from the Web client
+        /// The Base ID for Recieving VR Data from the Web Client
         /// </summary>
         public const int VR_DEVICE_ID = 6;
+
+        /// <summary>
+        /// Crypto ID for Recieving Crypto Data from the Web Clinet
+        /// </summary>
+        public const int CRYPTO_DEVICE_ID = 7;
         #endregion
 
         #region Events
@@ -95,7 +100,7 @@ namespace FusedVR.VRStreaming {
         /// Based on the first byte, this method determines how to process the data and what events to expose for the application to listen to
         /// </summary>
         protected override void OnMessage(byte[] bytes) {
-            if (bytes[0] == VR_DEVICE_ID) //VR Device Data
+            if (bytes[0] == VR_DEVICE_ID) //VR or Crypto Device Data
             {
                 int data_type = bytes[1]; //get input data source
                 switch ((VRDataType)data_type) {
@@ -135,9 +140,12 @@ namespace FusedVR.VRStreaming {
                         //TODO: need to find proper way to resize texture based on data so that the video channel updates
 
                         break;
+                    default:
+                        Debug.LogError(Encoding.UTF8.GetString(bytes, 1, bytes.Length-1)); //ignore header byte
+                        break;
                 }
-            } else {
-                Debug.LogError(Encoding.UTF8.GetString(bytes, 0, bytes.Length));
+            } else if ( bytes[0] == CRYPTO_DEVICE_ID ) {
+                Debug.LogError(Encoding.UTF8.GetString(bytes, 1, bytes.Length-1)); //ignore crypto header byte
             }
         }
         #endregion
