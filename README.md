@@ -6,14 +6,14 @@ This SDK package is built based on [Unity Render Streaming](https://docs.unity3d
 
 For an overview of this package, please refer to this video tutorial on the FusedVR Youtube Channel: [Streaming Your First WebXR Unity Game to Oculus Quest](https://youtu.be/di18sWRlbFs)
 
-[![CloudXR WebXR](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/first-look.jpg)](https://youtu.be/di18sWRlbFs)
+[![CloudXR WebXR Hello World](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/hello-world.jpg)](https://youtu.be/di18sWRlbFs)
 
 # Setup
 
 1. Import this Github Repo as a Unity Package via the Unity Package Manager **Add from Git URL** : https://github.com/FusedVR/VRStreaming.git
 2. Drag the provided **Render Streaming Service** prefab into your Unity scene
 3. Verify the WebRTC server address on the **Render Streaming Service** Gameobject and Component is : [wss://webrtc-pcehljv7ea-uw.a.run.app](https://webrtc-pcehljv7ea-uw.a.run.app)
-4. Start the scene (click Play in Editor or create a standalone Build)
+4. Start the scene (click Play in Editor or create a standalone Build). **NOTE** : The Game View must be selected otherwise streaming will not work as documented in issue [#12](https://github.com/FusedVR/VRStreaming/issues/12) 
 5. Open https://fusedvr.com/rendering in a WebRTC compatible browser  with a WebXR compatible VR Headset connected (most standard browsers support this).
   a. Please verify that the URL is being served over an https connection!
   b. This page will connect to the WebRTC server served at [webrtc-pcehljv7ea-uw.a.run.app](https://webrtc-pcehljv7ea-uw.a.run.app) using the Google STUN Server (stun:stun.l.google.com:19302)
