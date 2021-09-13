@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Text;
 using Unity.RenderStreaming;
 using UnityEngine;
 using UnityEngine.Events;
@@ -47,9 +48,14 @@ namespace FusedVR.VRStreaming {
         }
 
         /// <summary>
-        /// The Base ID for Recieving VR Data from the Web client
+        /// The Base ID for Recieving VR Data from the Web Client
         /// </summary>
         public const int VR_DEVICE_ID = 6;
+
+        /// <summary>
+        /// Crypto ID for Recieving Crypto Data from the Web Clinet
+        /// </summary>
+        public const int CRYPTO_DEVICE_ID = 7;
         #endregion
 
         #region Events
@@ -78,6 +84,12 @@ namespace FusedVR.VRStreaming {
         /// </summary>
         public delegate void OnAxisDataRecieved(Source handID, int buttonID, float xaxis, float yaxis);
         public static OnAxisDataRecieved AxisDataEvent;
+
+        /// <summary>
+        /// C# Event responsible for returning Crypto Data from Client
+        /// </summary>
+        public delegate void OnCryptoData(BlockchainData.DataEvents evt, string result);
+        public static OnCryptoData CryptoEvent;
         #endregion
 
         #region Methods
@@ -94,7 +106,7 @@ namespace FusedVR.VRStreaming {
         /// Based on the first byte, this method determines how to process the data and what events to expose for the application to listen to
         /// </summary>
         protected override void OnMessage(byte[] bytes) {
-            if (bytes[0] == VR_DEVICE_ID) //VR Device Data
+            if (bytes[0] == VR_DEVICE_ID) //VR or Crypto Device Data
             {
                 int data_type = bytes[1]; //get input data source
                 switch ((VRDataType)data_type) {
@@ -134,8 +146,13 @@ namespace FusedVR.VRStreaming {
                         //TODO: need to find proper way to resize texture based on data so that the video channel updates
 
                         break;
+                    default:
+                        Debug.LogError(Encoding.UTF8.GetString(bytes, 1, bytes.Length-1)); //ignore header byte
+                        break;
                 }
-
+            } else if ( bytes[0] == CRYPTO_DEVICE_ID ) {
+                CryptoEvent?.Invoke( (BlockchainData.DataEvents) bytes[1] , 
+                    Encoding.UTF8.GetString(bytes, 2, bytes.Length - 2)); //subtract 2 for the header bits
             }
         }
         #endregion

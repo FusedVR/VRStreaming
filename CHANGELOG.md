@@ -4,6 +4,21 @@ All notable changes to com.unity.renderstreaming package will be documented in t
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2021-09-13
+
+### Added
+
+- Added a new ClientStreamer.cs file that is responsible for managing the streams for a given player
+- Added a new BlockchainData.cs script to make it easier to integrate with new Block Chain integrations with client
+- It is now possible to send Blockchain transactions to each client and wait for a response from the blockchain
+
+### Changed
+
+- **MAJOR** Revised the Render Streaming Service prefab. The new prefab is a single game object and now requires player prefabs, which will be spawned when a player connects. This change was made to support multi-players / devices
+- Upgraded to Render Streaming version : 3.1.0-exp.1
+- VRInputManager now listens for Blockchain data and passes along to the BlockchainData script. 
+- VRBroadcast now exposes a Max Connection / Player Prefab field in addition to GameID (see README for more details).
+
 ## [0.4.1] - 2021-08-23
 
 ### Changed
