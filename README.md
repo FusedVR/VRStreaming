@@ -28,7 +28,11 @@ On the **Render Streaming Service** Game Object, there are a few configuration o
 - **Max Connections** : This field limits the number of clients that can connect to your game. Defaults to 1 and depending on the GPU you are using and what you are rendering, it is recommended to keep this to be no more than 5. As recommended by Unity in the [Render Streaming FAQ](https://docs.unity3d.com/Packages/com.unity.renderstreaming@2.0/manual/en/faq.html), if you are planning to allow more than 5 clients to connect, you may want to consider using an [SFU Rebroadcaster](https://webrtcglossary.com/sfu/). This can be very useful in cases where you would like to build an asymmetrical game or get data from another device (see blockchain support below).
 - **Player Prefabs** : This field allows you to setup multiple prefabs that will be spawned once a player connects to the server. These prefabs must contain the [ClientStreams.cs])(https://github.com/FusedVR/VRStreaming/blob/master/Runtime/Scripts/ClientStreams.cs) component, which is responsible for defining the video streams that you would like to stream to the browser as well as the associated Data Channel. 
 
-![VR Broadcast](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/render-streaming-service.png)
+<p align="center">
+<img src="https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/render-streaming-service.png" />
+<br />
+VR Broadcast Component
+</p>
 
 # Camera Eye Resolution
 
