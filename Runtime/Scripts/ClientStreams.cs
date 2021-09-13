@@ -1,4 +1,14 @@
-﻿using System.Collections.Generic;
+﻿/**
+ * Copyright 2021 Vasanth Mohan. All rights and licenses reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+using System.Collections.Generic;
 using Unity.RenderStreaming;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -43,12 +53,13 @@ namespace FusedVR.VRStreaming {
 
         /// <summary>
         /// Enable & Disable View Streams
-        /// TODO: this is currently broken in WebRTC 
+        /// TODO: disabling track causes the project to crash. disabling / enabling the stream seems fine
         /// Filed Issue : https://github.com/Unity-Technologies/com.unity.webrtc/issues/523
         /// </summary>
         public void ViewStreams(bool view) {
             foreach (StreamSourceBase source in streams) {
-                source.Track.Enabled = view;
+                source.gameObject.SetActive(view); //disables sending data
+                //source.Track.Enabled = view;
             }
         }
 

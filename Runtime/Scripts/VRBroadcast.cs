@@ -93,7 +93,7 @@ namespace FusedVR.VRStreaming {
                 return;
             }
 
-            if (activeConnections.Count >= maxConnections) { //if there is more than 1 connection, let's skip this offer
+            if (activeConnections.Count >= maxConnections) { //if there is more than desired connection, let's skip this offer
                 Debug.LogWarning($"Reached Maxed Connections : {activeConnections.Count}");
                 return;
             }

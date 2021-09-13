@@ -84,6 +84,12 @@ namespace FusedVR.VRStreaming {
         /// </summary>
         public delegate void OnAxisDataRecieved(Source handID, int buttonID, float xaxis, float yaxis);
         public static OnAxisDataRecieved AxisDataEvent;
+
+        /// <summary>
+        /// C# Event responsible for returning Crypto Data from Client
+        /// </summary>
+        public delegate void OnCryptoData(BlockchainData.DataEvents evt, string result);
+        public static OnCryptoData CryptoEvent;
         #endregion
 
         #region Methods
@@ -145,7 +151,8 @@ namespace FusedVR.VRStreaming {
                         break;
                 }
             } else if ( bytes[0] == CRYPTO_DEVICE_ID ) {
-                Debug.LogError(Encoding.UTF8.GetString(bytes, 1, bytes.Length-1)); //ignore crypto header byte
+                CryptoEvent?.Invoke( (BlockchainData.DataEvents) bytes[1] , 
+                    Encoding.UTF8.GetString(bytes, 2, bytes.Length - 2)); //subtract 2 for the header bits
             }
         }
         #endregion
