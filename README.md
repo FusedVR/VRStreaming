@@ -20,6 +20,16 @@ For an overview of this package, please refer to this video tutorial on the Fuse
 5. On the Browser, click "**Connect to Cloud VR Streaming Server**"
 6. Once you see the video feed, click "**Enter Virtual Reality**"
 
+# Configurations
+
+On the **Render Streaming Service** Game Object, there are a few configuration options to make it easier to customize your Render Streaming Game.
+
+- **Game ID (optional)** : This field allows you to specify an ID that a user will be required to enter in order to connect with your game. If left blank, any user will be able to connect with the game. 
+- **Max Connections** : This field limits the number of clients that can connect to your game. Defaults to 1 and depending on the GPU you are using and what you are rendering, it is recommended to keep this to be no more than 5. As recommended by Unity in the [Render Streaming FAQ](https://docs.unity3d.com/Packages/com.unity.renderstreaming@2.0/manual/en/faq.html), if you are planning to allow more than 5 clients to connect, you may want to consider using an [SFU Rebroadcaster](https://webrtcglossary.com/sfu/). This can be very useful in cases where you would like to build an asymmetrical game or get data from another device (see blockchain support below).
+- **Player Prefabs** : This field allows you to setup multiple prefabs that will be spawned once a player connects to the server. These prefabs must contain the [ClientStreams.cs])(https://github.com/FusedVR/VRStreaming/blob/master/Runtime/Scripts/ClientStreams.cs) component, which is responsible for defining the video streams that you would like to stream to the browser as well as the associated Data Channel. 
+
+![VR Broadcast](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/render-streaming-service.png)
+
 # Camera Eye Resolution
 
 At this time, the WebXR Client sends the resolution required to render per eye based on the connected VR device to Unity in order to adapt the resolution that is sent. However, IPD data is not sent and is hard-coded to a standard default IPD of 64mm. If you would like to adjust the resolution yourself, you may change the [VRInputManager](https://github.com/FusedVR/VRStreaming/blob/master/Runtime/Scripts/VRInputManager.cs) and change the code related to the VRDataType.Display.
@@ -30,7 +40,7 @@ Limited testing and Proof of Concepts have been done with deploying a standalone
 
 # GPU Recommendations
 
-It is strongly recommended to utlize a NVIDIA GPU as these GPUs support Hardware Accelerated Encoding, which is a requirement for lower latency VR Streaming. You can check the fully compatability matrix on the [Unity WebRTC documentation](https://docs.unity3d.com/Packages/com.unity.webrtc@2.4/manual/index.html). If you are using a GPU that does not support Hardware Accelerated, you will need to uncheck this option on the **Render Streaming Service** Gameobject and Component
+It is strongly recommended to utlize a NVIDIA GPU as these GPUs support Hardware Accelerated Encoding, which is a requirement for lower latency VR Streaming. You can check the fully compatability matrix on the [Unity WebRTC documentation](https://docs.unity3d.com/Packages/com.unity.webrtc@2.4/manual/index.html). If you are using a GPU that does not support Hardware Acceleration, you will need to uncheck this option on the **Render Streaming Service** Game Object and Component
 
 # WebXR Input
 
@@ -45,20 +55,22 @@ The first byte of the data Array Byffer refers to the input mode to determine ho
 - ID 4 = UI (legacy)
 - ID 5 = Gamepad
 
-ID 6 is what is used for all WebXR Input specific to VR. Within VR Input, we specify 3 different modes for sending data, which are:
+ID 6 is used for all WebXR Input specific to VR. Within VR Input, we specify 3 different modes for sending data, which are:
 - ID 0 = Positional and Rotational Data of the Headset and Hands
 - ID 1 = Controller Button Data ( A , B , Trigger, Grip )
 - ID 2 = Controller Axis Data (Joystick & Trackpad)
+
+ID 7 is used for Blockchain Transaction Data (see next section). 
 
 The Raw Data from the Client is passed to VRInputManager, who is responsible for transmitting events based on the data mode recieved. Controller Input is then parsed by the ControllerInputManager, which has events that can be subscribed to for VR Input. 
 
 # Blockchain / Ethereum Web Wallet Integration
 
-In order to support decentralized payments, the SDK now supports the ability to send and recieve information from any client with a web wallet that supports **window.ethereum** i.e. [Metamask](https://metamask.io/) or [Coinbase Wallet](https://wallet.coinbase.com/). The implementation for this is located with in the BlockchainData.cs script, which is a static class that allows you to call 3 key functions that will broadcast your message over the Data Channel to all connected clients :
+In order to support decentralized payments, the SDK now supports the ability to send and recieve information from any client with a web wallet that supports **window.ethereum** i.e. [Metamask](https://metamask.io/) or [Coinbase Wallet](https://wallet.coinbase.com/). The implementation for this is located with in the [BlockchainData.cs]((https://github.com/FusedVR/VRStreaming/blob/master/Runtime/Scripts/BlockchainData.cs)) script, which is a static class that allows you to call 3 key functions that will broadcast your message over the Data Channel to all connected clients :
 
-- GetAccount() : returns the currently active Blockchain account
-- Signature(string message) : returns the signed hash of the input message
-- SendTransaction(string to, string value) : returns the transaction hash for the ethereum transaction that will send *value* ethereum to the *to* address from the active web wallet account
+- **GetAccount()** : returns the currently active Blockchain account
+- **Signature(string message)** : returns the signed hash of the input message
+- **SendTransaction(string to, string value)** : returns the transaction hash for the ethereum transaction that will send *value* ethereum to the *to* address from the active web wallet account
 
 Once any of these methods has been called, the data will be sent over each Client's Data Channel to be processed on the client. If the Client supports the Web Wallet, then the message will be processed and returned back to the server. From Unity, you can listen from the return values on the BlockchainData.CryptoEvent event handler, which will return the event name and the result depending on which method was called. 
 
