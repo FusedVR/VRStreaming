@@ -11,6 +11,7 @@
 using System;
 using System.Text;
 using Unity.RenderStreaming;
+using Unity.WebRTC;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,6 +27,8 @@ namespace FusedVR.VRStreaming {
         /// </summary>
         [Tooltip("The Cameras that are responsible for VR Render Streaming")]
         public VRCamStream VRCameras;
+
+        private RemoteInput remoteInput;
 
         #region Constants
         /// <summary>
@@ -93,6 +96,21 @@ namespace FusedVR.VRStreaming {
         #endregion
 
         #region Methods
+
+        public override void SetChannel(string connectionId, RTCDataChannel channel) {
+            base.SetChannel(connectionId, channel);
+
+            if (channel == null) {
+                if (remoteInput != null) {
+                    remoteInput.Dispose();
+                    remoteInput = null;
+                }
+            } else {
+                remoteInput = RemoteInputReceiver.Create();
+                channel.OnMessage += remoteInput.ProcessInput;
+            }
+        }
+
         /// <summary>
         /// Public Method to send string data over the data channel for the client to respond to. 
         /// Currently, the client does not do anything with data that is recieved and any such action would need to be implemented
