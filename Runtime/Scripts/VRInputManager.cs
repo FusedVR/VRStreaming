@@ -22,13 +22,30 @@ namespace FusedVR.VRStreaming {
     /// Since this is manages the Data Channel, it can be used to send and recieve data from the client
     /// </summary>
     public class VRInputManager : InputChannelReceiverBase {
+
+        #region Properties
+        /// <summary>
+        /// Enables whether the Simple Camera Controls script is added to the object at start
+        /// </summary>
+        [Tooltip("Enables whether the Simple Camera Controls script is added to the object at start")]
+        public bool enableKeyboardTouchControls = true;
+
         /// <summary>
         /// Camera that are used for VR Render Streaming
         /// </summary>
         [Tooltip("The Cameras that are responsible for VR Render Streaming")]
         public VRCamStream VRCameras;
 
+        /// <summary>
+        /// Remote Input class to capture Remote Input and incorporate into Unity Input System
+        /// </summary>
         private RemoteInput remoteInput;
+
+        /// <summary>
+        /// Utilized solely for 2D Camera Controls (Mouse, Touch , Keyboard)
+        /// </summary>
+        private CameraControls camControls;
+        #endregion
 
         #region Constants
         /// <summary>
@@ -97,18 +114,28 @@ namespace FusedVR.VRStreaming {
 
         #region Methods
 
-        public override void SetChannel(string connectionId, RTCDataChannel channel) {
-            base.SetChannel(connectionId, channel);
+        private void Awake() {
+            if (enableKeyboardTouchControls) {
+                camControls = gameObject.AddComponent<CameraControls>();
+            }
+        }
 
+        public override void SetChannel(string connectionId, RTCDataChannel channel) {
             if (channel == null) {
                 if (remoteInput != null) {
                     remoteInput.Dispose();
+                    camControls.RemoveDevices();
                     remoteInput = null;
                 }
             } else {
                 remoteInput = RemoteInputReceiver.Create();
+                camControls.AddDevice(remoteInput.RemoteKeyboard);
+                camControls.AddDevice(remoteInput.RemoteMouse);
+                camControls.AddDevice(remoteInput.RemoteTouchscreen);
                 channel.OnMessage += remoteInput.ProcessInput;
             }
+
+            base.SetChannel(connectionId, channel);
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace FusedVR.VRStreaming
             if (index == id) //check if the data is from the correct source
             {
                 transform.localPosition = new Vector3(position.x, position.y, -position.z); //note that z data is reversed on WebXR
-                transform.rotation = rotation; //apply rotation - note coordinate system change was already applied
+                transform.localRotation = rotation; //apply rotation - note coordinate system change was already applied
             }
         }
     }
