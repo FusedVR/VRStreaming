@@ -84,7 +84,7 @@ namespace FusedVR.VRStreaming {
             // Keyboard commands
             Vector3 p = GetBaseInput();
 
-            if ( Keyboard.current.leftShiftKey.isPressed ) {
+            if ( myKeyboard != null && myKeyboard.leftShiftKey.isPressed ) {
                 totalRun += Time.deltaTime;
                 p *= totalRun * shiftAdd;
                 p.x = Mathf.Clamp(p.x, -maxShift, maxShift);
