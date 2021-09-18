@@ -563,7 +563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1551e95624dfa794ba99d01835e01b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDeletable: 0
   dataChannel: {fileID: 3276729996475180246}
   streams:
   - {fileID: 8869988711766060202}
@@ -581,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c0cb8bdc24787439e43b7f145ac31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playArea: {fileID: 3276729996475180248}
+  playArea: {fileID: 8441544579174624142}
   headset: {fileID: 3276729996664419714}
   headsetCamera: {fileID: 3276729995797524189}
   headsetVelocityTracker: {fileID: 8441544578413376389}
@@ -935,7 +934,7 @@ PrefabInstance:
       value: WebXR Streamer
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 3432969078835647384, guid: 234ee74f5f05b9541850ec55278bb3f5, type: 3}
+    - {fileID: 1305806924054047947, guid: 234ee74f5f05b9541850ec55278bb3f5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 234ee74f5f05b9541850ec55278bb3f5, type: 3}
 --- !u!1 &3276729996475180248 stripped
 GameObject:
