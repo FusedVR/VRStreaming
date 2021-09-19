@@ -55,7 +55,9 @@ namespace FusedVR.VRStreaming {
             PosRot,
             Button,
             Axis,
-            Display
+            Display,
+            EnterVR,
+            ExitVR
         }
 
         /// <summary>
@@ -96,14 +98,21 @@ namespace FusedVR.VRStreaming {
         /// C# Event responsible for sending Controller Button Data that is recieved from the client
         /// </summary>
         public delegate void OnButtonDataRecieved(Source handID, int buttonID, bool pressed, bool touched);
-        public static OnButtonDataRecieved ButtonDataEvent;
+        public OnButtonDataRecieved ButtonDataEvent;
 
 
         /// <summary>
         /// C# Event responsible for sending Controller Axis Data that is recieved from the client
         /// </summary>
         public delegate void OnAxisDataRecieved(Source handID, int buttonID, float xaxis, float yaxis);
-        public static OnAxisDataRecieved AxisDataEvent;
+        public OnAxisDataRecieved AxisDataEvent;
+
+        /// <summary>
+        /// C# Event responsible for sending the status of whether the client is in VR mode or not
+        /// isVR = true means that player just entered VR; else they exited
+        /// </summary>
+        public delegate void OnVRMode(bool isVR);
+        public OnVRMode VRModeEvent;
 
         /// <summary>
         /// C# Event responsible for returning Crypto Data from Client
@@ -190,6 +199,12 @@ namespace FusedVR.VRStreaming {
                         //}
                         //TODO: need to find proper way to resize texture based on data so that the video channel updates
 
+                        break;
+                    case VRDataType.EnterVR:
+                        VRModeEvent?.Invoke(true);
+                        break;
+                    case VRDataType.ExitVR:
+                        VRModeEvent?.Invoke(false);
                         break;
                     default:
                         Debug.LogError(Encoding.UTF8.GetString(bytes, 1, bytes.Length-1)); //ignore header byte
