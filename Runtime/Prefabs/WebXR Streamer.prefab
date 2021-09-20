@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88dc1ef0a0e7d1b4a897f095b852ab38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streamingSize: {x: 1080, y: 1200}
+  streamingSize: {x: 972, y: 1080}
   cameras:
   - {fileID: 7977754495293142443}
   depth: 0
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88dc1ef0a0e7d1b4a897f095b852ab38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streamingSize: {x: 1080, y: 1200}
+  streamingSize: {x: 972, y: 1080}
   cameras:
   - {fileID: 7977754496754579055}
   depth: 0
