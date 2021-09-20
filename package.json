@@ -22,6 +22,11 @@
       "displayName" : "VRTK Integration Sample",
       "description" : "Example of VRTK Integration with VR Render Streaming",
       "path" : "Samples~/VRTK-Sample"
+    },
+    {
+      "displayName" : "Asymmetrical Multplayer",
+      "description" : "Example Asymmetrical Multiplayer in Apartment",
+      "path" : "Samples~/Asym-Apartment"
     }
   ],
   "author": {
