@@ -4,6 +4,24 @@ All notable changes to com.unity.renderstreaming package will be documented in t
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2021-09-20
+
+### Added
+
+- Added a **NEW** Sample : Asymmetrical Apartment for testing asymmetrical multiplayer
+- Add CameraControls.cs to allow for the Camera to be controlled in 2D experiences
+- Added Supported Versions to README : https://github.com/FusedVR/VRStreaming/issues/24
+- Added enableKeyboardTouchControls to VRInputManager to control whether to use Camera Controls
+
+### Changed
+
+- Fixed HDRPVR Sample to reference correct Render Streaming Prefab
+- Fixed Mouse & Camera Input from the Web Client to be correctly sent to Unity SDK using RemoteInput class
+- Removed WebXR controls from client and instead send input to be handled by server 
+- Fixed Overriding Prefab Positional & Rotational Data : https://github.com/FusedVR/VRStreaming/issues/19
+- Rotation from headset is applied in local rotation instead of global rotation
+
+
 ## [0.5.0] - 2021-09-13
 
 ### Added

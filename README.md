@@ -20,6 +20,12 @@ For an overview of this package, please refer to this video tutorial on the Fuse
 5. On the Browser, click "**Connect to Cloud VR Streaming Server**"
 6. Once you see the video feed, click "**Enter Virtual Reality**"
 
+# Unity Versions
+
+Tested & Verfied with Unity 2019.4 LTS. Limited testing has been done with Unity 2020.3 LTS and seems to be working as intended there as well. 
+
+Please also refer to [Unity Render Streaming](https://github.com/Unity-Technologies/UnityRenderStreaming) for their list of supported Unity versions.  
+
 # Configurations
 
 On the **Render Streaming Service** Game Object, there are a few configuration options to make it easier to customize your Render Streaming Game.
@@ -40,7 +46,10 @@ At this time, the WebXR Client sends the resolution required to render per eye b
 
 # Cloud Support
 
-Limited testing and Proof of Concepts have been done with deploying a standalone version of the Unity Render Streaming app onto a Cloud or Edge Service provider via either a Windows or Ubuntu Virtual Machine. More testing is required to be done to enable this support. 
+This project has been tested to work on AWS EC2 leveraging Nvidia's Gaming AMIs. See the following videos for documentation on how to setup your Unity VR Streaming project and get it deployed on the Cloud.
+
+- Windows Server with Tesla T4 GPU Accelerated Graphics : https://youtu.be/UFsbQ8YlboU
+- Ubuntu 18.04 with Tesla T4 GPU Accelerated Graphics : https://youtu.be/3p0tzqD-s-c
 
 # GPU Recommendations
 
@@ -50,14 +59,14 @@ It is strongly recommended to utlize a NVIDIA GPU as these GPUs support Hardware
 
 Controller Input is captured via the [A-Frame Tracked-Controls component](https://aframe.io/docs/1.2.0/components/tracked-controls.html) and then sent over the data channel to the Unity SDK. This data protocol is adapted from the Unity Broadcast system, which was also capable of sending Keyboard, Mouse, Touch, and Gamepad data back to Unity via the RemoteInput.cs script in Unity. As such, VR data is sent from the client to Unity as Data Array buffers, defined in bytes. 
 
-The first byte of the data Array Byffer refers to the input mode to determine how to parse the data as an id. The following IDs were reservered for Web Input by the Unity Render Streaming system. 
+The first byte of the data Array Byffer refers to the input mode to determine how to parse the data as an id. The following IDs were reservered for Web Input by the Unity Render Streaming system and integrated with their Remote Input class. 
 
 - ID 0 = Keyboard
 - ID 1 = Mouse
 - ID 2 = MouseWheel
 - ID 3 = Touch
 - ID 4 = UI (legacy)
-- ID 5 = Gamepad
+- ID 5 = Gamepad (currently not implemented)
 
 ID 6 is used for all WebXR Input specific to VR. Within VR Input, we specify 3 different modes for sending data, which are:
 - ID 0 = Positional and Rotational Data of the Headset and Hands
@@ -99,10 +108,17 @@ The first one uses the Unity HDRP Built In Template to show case streaming a sce
 
 ![High Definition Render Pipeline](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/hdrpvr.png)
 
-The second provided sample shows integration with [VRTK](https://www.vrtk.io/) to showcase how to utilize the input that is streamed from the WebXR client into Unity. Using this input, we can build an Archery Sandbox. Simmply pick up the bow and then grab arrows from behind your back to begin shooting. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
+The second provided sample shows integration with [VRTK](https://www.vrtk.io/) to showcase how to utilize the input that is streamed from the WebXR client into Unity. Using this input, we can build an Archery Sandbox. Simply pick up the bow and then grab arrows from behind your back to begin shooting. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
 
 - **io.extendreality.tilia.camerarigs.trackedalias.unity**
 - **io.extendreality.tilia.interactions.interactables.unity**
 - **io.extendreality.tilia.interactions.snapzone.unity**
 
 ![VRTK Archery](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/archery-sample.png)
+
+The third provided sample shows an example of creating a asymmetrical multiplayer experience, where up to 4 users can enter the application either in VR or in 2D as a laptop or mobile user to view an apartment. VR users will be able to teleport around using the enabled [VRTK](https://www.vrtk.io/) integration. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
+
+- **io.extendreality.tilia.locomotors.teleporter.unity**
+- **io.extendreality.tilia.indicators.objectpointers.unity**
+
+![Apartment](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/apartment.png)

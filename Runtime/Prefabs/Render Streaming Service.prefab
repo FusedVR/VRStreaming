@@ -72,4 +72,4 @@ MonoBehaviour:
   gameID: 
   maxConnections: 1
   playerPrefabs:
-  - {fileID: 3432969078835647384, guid: 234ee74f5f05b9541850ec55278bb3f5, type: 3}
+  - {fileID: 1305806924054047947, guid: 234ee74f5f05b9541850ec55278bb3f5, type: 3}

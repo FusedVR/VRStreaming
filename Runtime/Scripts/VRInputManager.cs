@@ -11,6 +11,7 @@
 using System;
 using System.Text;
 using Unity.RenderStreaming;
+using Unity.WebRTC;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,11 +22,30 @@ namespace FusedVR.VRStreaming {
     /// Since this is manages the Data Channel, it can be used to send and recieve data from the client
     /// </summary>
     public class VRInputManager : InputChannelReceiverBase {
+
+        #region Properties
+        /// <summary>
+        /// Enables whether the Simple Camera Controls script is added to the object at start
+        /// </summary>
+        [Tooltip("Enables whether the Simple Camera Controls script is added to the object at start")]
+        public bool enableKeyboardTouchControls = true;
+
         /// <summary>
         /// Camera that are used for VR Render Streaming
         /// </summary>
         [Tooltip("The Cameras that are responsible for VR Render Streaming")]
         public VRCamStream VRCameras;
+
+        /// <summary>
+        /// Remote Input class to capture Remote Input and incorporate into Unity Input System
+        /// </summary>
+        private RemoteInput remoteInput;
+
+        /// <summary>
+        /// Utilized solely for 2D Camera Controls (Mouse, Touch , Keyboard)
+        /// </summary>
+        private CameraControls camControls;
+        #endregion
 
         #region Constants
         /// <summary>
@@ -35,7 +55,9 @@ namespace FusedVR.VRStreaming {
             PosRot,
             Button,
             Axis,
-            Display
+            Display,
+            EnterVR,
+            ExitVR
         }
 
         /// <summary>
@@ -76,14 +98,21 @@ namespace FusedVR.VRStreaming {
         /// C# Event responsible for sending Controller Button Data that is recieved from the client
         /// </summary>
         public delegate void OnButtonDataRecieved(Source handID, int buttonID, bool pressed, bool touched);
-        public static OnButtonDataRecieved ButtonDataEvent;
+        public OnButtonDataRecieved ButtonDataEvent;
 
 
         /// <summary>
         /// C# Event responsible for sending Controller Axis Data that is recieved from the client
         /// </summary>
         public delegate void OnAxisDataRecieved(Source handID, int buttonID, float xaxis, float yaxis);
-        public static OnAxisDataRecieved AxisDataEvent;
+        public OnAxisDataRecieved AxisDataEvent;
+
+        /// <summary>
+        /// C# Event responsible for sending the status of whether the client is in VR mode or not
+        /// isVR = true means that player just entered VR; else they exited
+        /// </summary>
+        public delegate void OnVRMode(bool isVR);
+        public OnVRMode VRModeEvent;
 
         /// <summary>
         /// C# Event responsible for returning Crypto Data from Client
@@ -93,6 +122,31 @@ namespace FusedVR.VRStreaming {
         #endregion
 
         #region Methods
+
+        private void Awake() {
+            if (enableKeyboardTouchControls) {
+                camControls = gameObject.AddComponent<CameraControls>();
+            }
+        }
+
+        public override void SetChannel(string connectionId, RTCDataChannel channel) {
+            if (channel == null) {
+                if (remoteInput != null) {
+                    remoteInput.Dispose();
+                    camControls.RemoveDevices();
+                    remoteInput = null;
+                }
+            } else {
+                remoteInput = RemoteInputReceiver.Create();
+                camControls.AddDevice(remoteInput.RemoteKeyboard);
+                camControls.AddDevice(remoteInput.RemoteMouse);
+                camControls.AddDevice(remoteInput.RemoteTouchscreen);
+                channel.OnMessage += remoteInput.ProcessInput;
+            }
+
+            base.SetChannel(connectionId, channel);
+        }
+
         /// <summary>
         /// Public Method to send string data over the data channel for the client to respond to. 
         /// Currently, the client does not do anything with data that is recieved and any such action would need to be implemented
@@ -145,6 +199,12 @@ namespace FusedVR.VRStreaming {
                         //}
                         //TODO: need to find proper way to resize texture based on data so that the video channel updates
 
+                        break;
+                    case VRDataType.EnterVR:
+                        VRModeEvent?.Invoke(true);
+                        break;
+                    case VRDataType.ExitVR:
+                        VRModeEvent?.Invoke(false);
                         break;
                     default:
                         Debug.LogError(Encoding.UTF8.GetString(bytes, 1, bytes.Length-1)); //ignore header byte

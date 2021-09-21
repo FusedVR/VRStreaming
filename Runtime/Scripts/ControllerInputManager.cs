@@ -17,6 +17,7 @@ namespace FusedVR.VRStreaming
     /// The manager class for Controller Input Data i.e. Trigger, Grips Pressed, etc.
     /// This class provides an abstraction over the raw data ControllerDataEvent from VRInputManager 
     /// </summary>
+    [RequireComponent(typeof(VRInputManager))]
     public class ControllerInputManager : MonoBehaviour
     {
         #region Enums
@@ -71,18 +72,21 @@ namespace FusedVR.VRStreaming
         public VRAxisData VRAxisEvent;
         #endregion
 
+        private VRInputManager input; // handles recieving the data
+
         #region Methods
         // Start is called before the first frame update
         void Start()
         {
-            VRInputManager.ButtonDataEvent += ButtonEvents; //start listening
-            VRInputManager.AxisDataEvent += AxisEvents; //start listening
+            input = GetComponent<VRInputManager>();
+            input.ButtonDataEvent += ButtonEvents; //start listening
+            input.AxisDataEvent += AxisEvents; //start listening
         }
         
         // OnDestroy is called when the game object is about to be destroyed in the scene
         private void OnDestroy() {
-            VRInputManager.ButtonDataEvent -= ButtonEvents; //end listening
-            VRInputManager.AxisDataEvent -= AxisEvents; //end listening
+            input.ButtonDataEvent -= ButtonEvents; //end listening
+            input.AxisDataEvent -= AxisEvents; //end listening
         }
 
         /// <summary>
