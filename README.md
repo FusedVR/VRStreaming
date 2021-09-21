@@ -108,10 +108,17 @@ The first one uses the Unity HDRP Built In Template to show case streaming a sce
 
 ![High Definition Render Pipeline](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/hdrpvr.png)
 
-The second provided sample shows integration with [VRTK](https://www.vrtk.io/) to showcase how to utilize the input that is streamed from the WebXR client into Unity. Using this input, we can build an Archery Sandbox. Simmply pick up the bow and then grab arrows from behind your back to begin shooting. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
+The second provided sample shows integration with [VRTK](https://www.vrtk.io/) to showcase how to utilize the input that is streamed from the WebXR client into Unity. Using this input, we can build an Archery Sandbox. Simply pick up the bow and then grab arrows from behind your back to begin shooting. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
 
 - **io.extendreality.tilia.camerarigs.trackedalias.unity**
 - **io.extendreality.tilia.interactions.interactables.unity**
 - **io.extendreality.tilia.interactions.snapzone.unity**
 
 ![VRTK Archery](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/archery-sample.png)
+
+The third provided sample shows an example of creating a asymmetrical multiplayer experience, where up to 4 users can enter the application either in VR or in 2D as a laptop or mobile user to view an apartment. VR users will be able to teleport around using the enabled [VRTK](https://www.vrtk.io/) integration. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
+
+- **io.extendreality.tilia.locomotors.teleporter.unity**
+- **io.extendreality.tilia.indicators.objectpointers.unity**
+
+![Apartment](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/apartment.png)
