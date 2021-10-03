@@ -14,6 +14,8 @@ namespace FusedVR.VRStreaming {
         public float shiftAdd = 25.0f;   // Amount to accelerate when shift is pressed
         public float maxShift = 100.0f;  // Maximum speed when holding shift
         public float camSens = 0.15f;   // Mouse sensitivity
+
+        public VRInputManager inputManager;
         #endregion
 
         #region Private Properties
@@ -28,9 +30,19 @@ namespace FusedVR.VRStreaming {
         #endregion
 
         #region Public Methods
+        private void Start() {
+            inputManager.onDeviceChange += OnDeviceChange;
+        }
+
+        private void OnDeviceChange(InputDevice device, InputDeviceChange change) {
+            if (change == InputDeviceChange.Added)
+                AddDevice(device);
+            else if (change == InputDeviceChange.Removed)
+                RemoveDevice(device);
+        }
+
         /// <summary>
         /// Add a Unity Input Device (Mouse, Touch, Keyboard) to this controller to be used for Camera Controls
-        /// Used in the VR Input Manager to assign devices
         /// </summary>
         public void AddDevice(InputDevice device) {
             switch (device) {
@@ -49,14 +61,22 @@ namespace FusedVR.VRStreaming {
         }
 
         /// <summary>
-        /// Reset and Remove all Devices that have prior assigned
-        /// Used in the VR Input Manager to remove devices for the camera control on disconnect
+        /// Remove the Specified Device (Mouse, Touch, Keyboard) from the controls
         /// </summary>
-        public void RemoveDevices() {
-            myMouse = null;
-            myKeyboard = null;
-            myTouch = null;
-            lastPointer = null;
+        public void RemoveDevice(InputDevice device) {
+            switch (device) {
+                case Mouse mouse:
+                    myMouse = null;
+                    lastPointer = null;
+                    break;
+                case Keyboard keyboard:
+                    myKeyboard = null;
+                    break;
+                case Touchscreen touch:
+                    myTouch = null;
+                    lastPointer = null;
+                    break;
+            }
         }
         #endregion
 

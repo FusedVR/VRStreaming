@@ -14,6 +14,7 @@ using Unity.RenderStreaming;
 using Unity.WebRTC;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace FusedVR.VRStreaming {
     /// <summary>
@@ -119,6 +120,8 @@ namespace FusedVR.VRStreaming {
         /// </summary>
         public delegate void OnCryptoData(BlockchainData.DataEvents evt, string result);
         public static OnCryptoData CryptoEvent;
+
+        public event Action<InputDevice, InputDeviceChange> onDeviceChange;
         #endregion
 
         #region Methods
@@ -126,6 +129,7 @@ namespace FusedVR.VRStreaming {
         private void Awake() {
             if (enableKeyboardTouchControls) {
                 camControls = gameObject.AddComponent<CameraControls>();
+                camControls.inputManager = this;
             }
         }
 
@@ -133,18 +137,27 @@ namespace FusedVR.VRStreaming {
             if (channel == null) {
                 if (remoteInput != null) {
                     remoteInput.Dispose();
-                    camControls.RemoveDevices();
+
+                    onDeviceChange(remoteInput.RemoteKeyboard, InputDeviceChange.Removed);
+                    onDeviceChange(remoteInput.RemoteMouse, InputDeviceChange.Removed);
+                    onDeviceChange(remoteInput.RemoteTouchscreen, InputDeviceChange.Removed);
+
                     remoteInput = null;
                 }
             } else {
                 remoteInput = RemoteInputReceiver.Create();
-                camControls.AddDevice(remoteInput.RemoteKeyboard);
-                camControls.AddDevice(remoteInput.RemoteMouse);
-                camControls.AddDevice(remoteInput.RemoteTouchscreen);
+                onDeviceChange(remoteInput.RemoteKeyboard , InputDeviceChange.Added);
+                onDeviceChange(remoteInput.RemoteMouse, InputDeviceChange.Added);
+                onDeviceChange(remoteInput.RemoteTouchscreen, InputDeviceChange.Added);
+
                 channel.OnMessage += remoteInput.ProcessInput;
             }
 
             base.SetChannel(connectionId, channel);
+        }
+
+        private void VRInputManager_onDeviceChange(UnityEngine.InputSystem.InputDevice arg1, UnityEngine.InputSystem.InputDeviceChange arg2) {
+            throw new NotImplementedException();
         }
 
         /// <summary>
