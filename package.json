@@ -1,6 +1,6 @@
 {
   "name": "com.fusedvr.vrstreaming",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "displayName": "FusedVR Streaming",
   "description": "This VR Streaming Package contains a minimal SDK & prefabs to implement VR Streaming (CloudXR) using WebRTC and Unity Remote Rendering",
   "dependencies": {
@@ -28,6 +28,11 @@
       "displayName" : "Asymmetrical Multplayer",
       "description" : "Example Asymmetrical Multiplayer in Apartment",
       "path" : "Samples~/Asym-Apartment"
+    },
+    {
+      "displayName" : "Blockchain Testing",
+      "description" : "Example on How to Use the Blockchain Components of the Project",
+      "path" : "Samples~/Blockchain"
     }
   ],
   "author": {
