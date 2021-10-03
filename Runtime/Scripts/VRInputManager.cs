@@ -156,10 +156,6 @@ namespace FusedVR.VRStreaming {
             base.SetChannel(connectionId, channel);
         }
 
-        private void VRInputManager_onDeviceChange(UnityEngine.InputSystem.InputDevice arg1, UnityEngine.InputSystem.InputDeviceChange arg2) {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Public Method to send string data over the data channel for the client to respond to. 
         /// Currently, the client does not do anything with data that is recieved and any such action would need to be implemented
