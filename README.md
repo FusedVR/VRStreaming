@@ -122,3 +122,7 @@ The third provided sample shows an example of creating a asymmetrical multiplaye
 - **io.extendreality.tilia.indicators.objectpointers.unity**
 
 ![Apartment](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/apartment.png)
+
+The forth sample shows an example of interacting with the Blockchain. This sample shows you how to use each feature of the Blockchain interaction highlighted above. Due to documented UI issues with Unity Render Streaming, this sample is a bit unstable to setup. If you are testing within Unity, please make sure the Game View is selected; otherwise input will fail to be recognized by the Editor Canvas. If you are running into trouble, please follow this [README](https://github.com/Unity-Technologies/UnityRenderStreaming/blob/develop/com.unity.renderstreaming/Documentation~/browser_input.md) guide from Render Streaming in order to setup browser input. There is also a work around script that has been implemented to avoid the bug caused in this [issue](https://github.com/Unity-Technologies/UnityRenderStreaming/issues/542).
+
+![Blockchain UI](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/blockchain.png)
