@@ -4,6 +4,20 @@ All notable changes to com.unity.renderstreaming package will be documented in t
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2021-10-04
+
+### Added
+
+- Added a **NEW** Sample : BlockChain Testing to quickly test Web3 integration with Client
+- Added Support for Smart Contracts to be registered with Clients in order to easily make calls on the Blockchain
+- Two Events to Client Streams for when Client is added / leaves
+
+### Fixed
+
+- Fixed Missing VRTK scripts that were required for the Apartment Sample
+- Updated VRInput Manager to use the onDeviceChange Event
+- Fixed Mouse Input to be Relative to viewable area
+
 ## [0.5.1] - 2021-09-20
 
 ### Added
