@@ -19,6 +19,7 @@ namespace FusedVR.VRStreaming {
     /// </summary>
     public class ClientStreams : MonoBehaviour
     {
+        #region Variables
         /// <summary>
         /// Data Channel for the client
         /// </summary>
@@ -35,6 +36,24 @@ namespace FusedVR.VRStreaming {
         /// Connection ID for client
         /// </summary>
         private string myConnection;
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// Static events for when a client joins or leaves
+        /// </summary>
+        public delegate void OnClientStream(ClientStreams player);
+        public static OnClientStream OnClientAdded;
+        public static OnClientStream OnClientLeft;
+
+        private void OnEnable() {
+            OnClientAdded?.Invoke(this);
+        }
+
+        private void OnDisable() {
+            OnClientLeft?.Invoke(this);
+        }
+        #endregion
 
         /// <summary>
         /// Set the connection based on the signalling data from the client on an Offer

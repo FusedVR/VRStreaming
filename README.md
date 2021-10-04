@@ -4,9 +4,13 @@
 
 This SDK package is built based on [Unity Render Streaming](https://docs.unity3d.com/Packages/com.unity.renderstreaming@2.0/manual/index.html) and [Unity WebRTC](https://docs.unity3d.com/Packages/com.unity.webrtc@2.4/manual/index.html). By using this package, you can stream any Unity scene from the the Unity Editor or a Standalone build to a WebXR client on the FusedVR Website : [https://fusedvr.com/rendering](https://fusedvr.com/rendering). To try this this package, it is as simple as dragging the included **Render Streaming Services** prefab into your Unity scene that you would like to stream and setting up the connect to the WebRTC server. 
 
-For an overview of this package, please refer to this video tutorial on the FusedVR Youtube Channel: [Streaming Your First WebXR Unity Game to Oculus Quest](https://youtu.be/di18sWRlbFs)
+For an overview of this package, please refer to this video tutorial on the FusedVR Youtube Channel: [Streaming Your First WebXR Unity Game to Oculus Quest](https://www.youtube.com/watch?v=di18sWRlbFs&list=PLihwab7Zw-Ky7nE47-QZopD3TneZlsiP4&index=9)
 
-[![CloudXR WebXR Hello World](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/hello-world.jpg)](https://youtu.be/di18sWRlbFs)
+<p align="center">
+<a href="https://www.youtube.com/watch?v=di18sWRlbFs&list=PLihwab7Zw-Ky7nE47-QZopD3TneZlsiP4&index=9"><img src="https://i.ytimg.com/vi/di18sWRlbFs/maxresdefault.jpg" /> </a>
+<br />
+How To Setup CloudXR to WebXR
+</p>
 
 # Setup
 
@@ -38,7 +42,58 @@ On the **Render Streaming Service** Game Object, there are a few configuration o
 <img src="https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/render-streaming-service.png" />
 <br />
 VR Broadcast Component
+</p> 
+
+# Samples
+
+Provided with the package are several samples to help with quick testing the SDK : **HDRP**, **VRTK Integration** , **Asymmetrical Multiplayer** , **Blockchain Testing**. These samples can be imported via the Package Manager once you have imported the SDK into your Unity project. 
+
+## High Definition Render Pipeline
+
+The first one uses the Unity HDRP Built In Template to show case streaming a scene with the [High Definition Render Pipeline](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@11.0/manual/index.html) into WebXR. This is one of the very few ways to play a HDRP game / app within Oculus Quest / WebXR. In order to utilize this sample, import the High Definition RP package from the Unity registry. 
+
+#### Watch how to setup the project on [Youtube](https://youtu.be/yXta-2aHH18)
+
+<p align="center">
+<a href="https://youtu.be/yXta-2aHH18"><img src="https://i.ytimg.com/vi/yXta-2aHH18/maxresdefault.jpg" /> </a>
+<br />
+HDRP Streaming
 </p>
+
+## VRTK Input Integration
+
+The second provided sample shows integration with [VRTK](https://www.vrtk.io/) to showcase how to utilize the input that is streamed from the WebXR client into Unity. Using this input, we can build an Archery Sandbox. Simply pick up the bow and then grab arrows from behind your back to begin shooting. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
+
+- **io.extendreality.tilia.camerarigs.trackedalias.unity**
+- **io.extendreality.tilia.interactions.interactables.unity**
+- **io.extendreality.tilia.interactions.snapzone.unity**
+
+#### Watch how to setup the project on [Youtube](https://youtu.be/Bc__t2MLarc)
+
+<p align="center">
+<a href="https://youtu.be/Bc__t2MLarc"><img src="https://i.ytimg.com/vi/Bc__t2MLarc/maxresdefault.jpg" /> </a>
+<br />
+VRTK Bow & Arrow
+</p>
+
+## Asymmetrical Multiplayer
+
+The third provided sample shows an example of creating a asymmetrical multiplayer experience, where up to 4 users can enter the application either in VR or in 2D as a laptop or mobile user to view an apartment. VR users will be able to teleport around using the enabled [VRTK](https://www.vrtk.io/) integration. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
+
+- **io.extendreality.tilia.locomotors.teleporter.unity**
+- **io.extendreality.tilia.indicators.objectpointers.unity**
+
+![Apartment](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/apartment.png)
+
+## Blockchain Testing
+
+The forth sample shows an example of interacting with the Blockchain. This sample shows you how to use each feature of the Blockchain interaction highlighted above. Due to documented UI issues with Unity Render Streaming, this sample is a bit unstable to setup. If you are testing within Unity, please make sure the Game View is selected; otherwise input will fail to be recognized by the Editor Canvas. If you are running into trouble, please follow this [README](https://github.com/Unity-Technologies/UnityRenderStreaming/blob/develop/com.unity.renderstreaming/Documentation~/browser_input.md) guide from Render Streaming in order to setup browser input. There is also a work around script (RemoteInput.cs) that has been implemented to avoid the bug caused in this [issue](https://github.com/Unity-Technologies/UnityRenderStreaming/issues/542).
+
+#### Some recommendations
+- **In Project Setting->Player->Other Setting, check Allow 'unsafe' code**
+- **For UnityEditor, Open Window->Analysis->Input Debugger and turn on Lock Input to Game View in Options**
+
+![Blockchain UI](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/blockchain.png)
 
 # Camera Eye Resolution
 
@@ -46,10 +101,19 @@ At this time, the WebXR Client sends the resolution required to render per eye b
 
 # Cloud Support
 
-This project has been tested to work on AWS EC2 leveraging Nvidia's Gaming AMIs. See the following videos for documentation on how to setup your Unity VR Streaming project and get it deployed on the Cloud.
+This project has been tested to work on AWS EC2 leveraging Nvidia's Gaming AMIs. See the following videos for documentation on how to setup your Unity VR Streaming project and get it deployed on the Cloud : [**Windows**](https://youtu.be/UFsbQ8YlboU) / [**Linux**](https://youtu.be/3p0tzqD-s-c)
 
-- Windows Server with Tesla T4 GPU Accelerated Graphics : https://youtu.be/UFsbQ8YlboU
-- Ubuntu 18.04 with Tesla T4 GPU Accelerated Graphics : https://youtu.be/3p0tzqD-s-c
+<p align="center">
+<a href="https://youtu.be/UFsbQ8YlboU"><img src="https://i.ytimg.com/vi/UFsbQ8YlboU/maxresdefault.jpg" /> </a>
+<br />
+Windows Server with Tesla T4 GPU Accelerated Graphics
+</p>
+
+<p align="center">
+<a href="https://youtu.be/3p0tzqD-s-c"><img src="https://i.ytimg.com/vi/3p0tzqD-s-c/maxresdefault.jpg" /> </a>
+<br />
+Ubuntu 18.04 with Tesla T4 GPU Accelerated Graphics
+</p>
 
 # GPU Recommendations
 
@@ -84,41 +148,21 @@ In order to support decentralized payments, the SDK now supports the ability to 
 - **GetAccount()** : returns the currently active Blockchain account
 - **Signature(string message)** : returns the signed hash of the input message
 - **SendTransaction(string to, string value)** : returns the transaction hash for the ethereum transaction that will send *value* ethereum to the *to* address from the active web wallet account
+- **RegisterContract(string contractAddres , string abi)** : registers the smart contract address with an associated abi on the clients. This enables the client to make calls to the Smart Contract instead of the server bundling the request into the data field of the SendTransaction
+- **RunTransaction(string contractAddress, string functionName, string[] args)** : runs the smart contract transaction on the client. If it is a read-only transaction, the client will return the value from the blockchain i.e. name / symbol. if the function requires writting to the blockchain, then the client will return a transaction hash. 
 
-Once any of these methods has been called, the data will be sent over each Client's Data Channel to be processed on the client. If the Client supports the Web Wallet, then the message will be processed and returned back to the server. From Unity, you can listen from the return values on the BlockchainData.CryptoEvent event handler, which will return the event name and the result depending on which method was called. 
+Once any of these methods has been called, the data will be sent over each Client's Data Channel to be processed on the client. If the Client supports the Web Wallet, then the message will be processed and returned back to the server. From Unity, you can listen from the return values on the **BlockchainData.CryptoEvent** event handler, which will return the event name and the result depending on which method was called. Please refer to the Blockchain Testing sample above for instructions on how to use the functionality.
 
-## How To Use
+## How To Use Blockchain Support
 
 The most common scenario where this can be integrated is when a VR device like Oculus Quest **NOT** support Blockchain integration and would like to have a secondary device (i.e. smart phone) to be paired with the headset in order to authorize payments. A user could simply connect both the VR headset and phone to the same server and the headset would be responsible for displaying VR, while the phone / computer would be responsible for authorizing any payments using Metamask.
 
 To implement this, you will need to :
 
 - Increase the number of clients that can connect to the server from 1 to 2.
-- If desired, create a specific CLientStreamer prefab dedicated for Blockchain support and assign that prefab to the **VRBroadcast**. If unchanged, the video stream will be passed through, which may or may not be desired. 
+- If desired, create a specific ClientStreamer prefab dedicated for Blockchain support and assign that prefab to the **VRBroadcast**. If unchanged, the video stream will be passed through, which may or may not be desired. 
 
 ## More Blockchain Requests?
 
 Please file [Github feature request issues](https://github.com/FusedVR/VRStreaming/issues) for additional methods and web wallet support that you would like to see implemented on clients. 
 
-# Samples
-
-Provided with the package are two samples to help with quick testing the SDK : **HDRP & VRTK**. Both these samples can be imported via the Package Manager once you have imported the SDK into your Unity project. 
-
-The first one uses the Unity HDRP Built In Template to show case streaming a scene with the [High Definition Render Pipeline](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@11.0/manual/index.html) into WebXR. This one of the very few ways to play a HDRP game / app within Oculus Quest / WebXR. In order to utilize this sample, import the High Definition RP package from the Unity registry. 
-
-![High Definition Render Pipeline](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/hdrpvr.png)
-
-The second provided sample shows integration with [VRTK](https://www.vrtk.io/) to showcase how to utilize the input that is streamed from the WebXR client into Unity. Using this input, we can build an Archery Sandbox. Simply pick up the bow and then grab arrows from behind your back to begin shooting. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
-
-- **io.extendreality.tilia.camerarigs.trackedalias.unity**
-- **io.extendreality.tilia.interactions.interactables.unity**
-- **io.extendreality.tilia.interactions.snapzone.unity**
-
-![VRTK Archery](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/archery-sample.png)
-
-The third provided sample shows an example of creating a asymmetrical multiplayer experience, where up to 4 users can enter the application either in VR or in 2D as a laptop or mobile user to view an apartment. VR users will be able to teleport around using the enabled [VRTK](https://www.vrtk.io/) integration. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
-
-- **io.extendreality.tilia.locomotors.teleporter.unity**
-- **io.extendreality.tilia.indicators.objectpointers.unity**
-
-![Apartment](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/apartment.png)
