@@ -138,17 +138,17 @@ namespace FusedVR.VRStreaming {
                 if (remoteInput != null) {
                     remoteInput.Dispose();
 
-                    onDeviceChange(remoteInput.RemoteKeyboard, InputDeviceChange.Removed);
-                    onDeviceChange(remoteInput.RemoteMouse, InputDeviceChange.Removed);
-                    onDeviceChange(remoteInput.RemoteTouchscreen, InputDeviceChange.Removed);
+                    onDeviceChange?.Invoke(remoteInput.RemoteKeyboard, InputDeviceChange.Removed);
+                    onDeviceChange?.Invoke(remoteInput.RemoteMouse, InputDeviceChange.Removed);
+                    onDeviceChange?.Invoke(remoteInput.RemoteTouchscreen, InputDeviceChange.Removed);
 
                     remoteInput = null;
                 }
             } else {
                 remoteInput = RemoteInputReceiver.Create();
-                onDeviceChange(remoteInput.RemoteKeyboard , InputDeviceChange.Added);
-                onDeviceChange(remoteInput.RemoteMouse, InputDeviceChange.Added);
-                onDeviceChange(remoteInput.RemoteTouchscreen, InputDeviceChange.Added);
+                onDeviceChange?.Invoke(remoteInput.RemoteKeyboard , InputDeviceChange.Added);
+                onDeviceChange?.Invoke(remoteInput.RemoteMouse, InputDeviceChange.Added);
+                onDeviceChange?.Invoke(remoteInput.RemoteTouchscreen, InputDeviceChange.Added);
 
                 channel.OnMessage += remoteInput.ProcessInput;
             }
