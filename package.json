@@ -16,22 +16,22 @@
   "samples" : [
     {
       "displayName" : "HDRP VR Render Streaming",
-      "description" : "Example of HDRP Streaming to VR. This will auto-import the HDRP package into your Unity project",
+      "description" : "Example of HDRP Streaming to VR. Requires HDRP Unity Package",
       "path" : "Samples~/HDRPVR"
     },
     {
-      "displayName" : "VRTK Integration Sample",
-      "description" : "Example of VRTK Integration with VR Render Streaming",
+      "displayName" : "VRTK Input Integration",
+      "description" : "Example of VRTK Integration with VR Render Streaming to highlight using input",
       "path" : "Samples~/VRTK-Sample"
     },
     {
       "displayName" : "Asymmetrical Multplayer",
-      "description" : "Example Asymmetrical Multiplayer in Apartment",
+      "description" : "Example of Asymmetrical Multiplayer in Apartment sample scene. 2D players can WASD, while VR players can teleport",
       "path" : "Samples~/Asym-Apartment"
     },
     {
-      "displayName" : "Blockchain Testing",
-      "description" : "Example on How to Use the Blockchain Components of the Project",
+      "displayName" : "Blockchain Web3 Testing",
+      "description" : "Example on using the Blockchain Components of the Project to interact with Web3",
       "path" : "Samples~/Blockchain"
     }
   ],
