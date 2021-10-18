@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Unity.RenderStreaming;
 using UnityEngine;
 using Newtonsoft.Json;
+using Unity.WebRTC;
 
 namespace FusedVR.VRStreaming {
     /// <summary>
@@ -25,6 +26,12 @@ namespace FusedVR.VRStreaming {
         /// </summary>
         [SerializeField]
         private InputChannelReceiverBase dataChannel;
+
+        /// <summary>
+        /// Microphone Audio Stream 
+        /// </summary>
+        [SerializeField]
+        private StreamReceiverBase micStream;
 
         /// <summary>
         /// Streams (video, audio) that need to be sent to the client
@@ -62,12 +69,21 @@ namespace FusedVR.VRStreaming {
             myConnection = connectionID; //save ID
 
             foreach (StreamSourceBase source in streams) {
-                var transceiver = broadcast.AddTrack(myConnection, source.Track);
-                source.SetSender(myConnection, transceiver.Sender);
+                broadcast.AddSender(myConnection, source);
             }
+
+            broadcast.AddReceiver(myConnection, micStream);
 
             var _channel = broadcast.CreateChannel(myConnection, dataChannel.Label);
             dataChannel.SetChannel(myConnection, _channel);
+        }
+
+        /// <summary>
+        /// Set the Microphone which will be recieve after answer
+        /// </summary>
+        public void AddMicrophone(RTCRtpReceiver rec) {
+
+            micStream?.SetReceiver(myConnection, rec);
         }
 
         /// <summary>
