@@ -80,6 +80,7 @@ VRTK Bow & Arrow
 
 The third provided sample shows an example of creating a asymmetrical multiplayer experience, where up to 4 users can enter the application either in VR or in 2D as a laptop or mobile user to view an apartment. VR users will be able to teleport around using the enabled [VRTK](https://www.vrtk.io/) integration. Please note that to you use this sample you will need to manually also import the following [VRTK Tilia Packages](https://www.vrtk.io/tilia.html):
 
+- **io.extendreality.tilia.camerarigs.trackedalias.unity**
 - **io.extendreality.tilia.locomotors.teleporter.unity**
 - **io.extendreality.tilia.indicators.objectpointers.unity**
 
