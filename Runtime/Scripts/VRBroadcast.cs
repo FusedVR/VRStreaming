@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.RenderStreaming;
 using Newtonsoft.Json;
+using Unity.WebRTC;
 
 namespace FusedVR.VRStreaming {
     /// <summary>
@@ -19,7 +20,8 @@ namespace FusedVR.VRStreaming {
     /// This script is responsible for listening for offers from the client and choosing when to respond. 
     /// </summary>
     public class VRBroadcast : SignalingHandlerBase,
-        IOfferHandler, IAddChannelHandler, IDisconnectHandler, IDeletedConnectionHandler {
+        IOfferHandler, IAddChannelHandler, IAddReceiverHandler,
+        IDisconnectHandler, IDeletedConnectionHandler {
 
         #region Variables
 
@@ -46,6 +48,11 @@ namespace FusedVR.VRStreaming {
         private Dictionary<string , ClientStreams> activeConnections = new Dictionary<string, ClientStreams>();
 
         /// <summary>
+        /// Temporary structure to save microphone track since onAddReceiver is called before onOffer
+        /// </summary>
+        private Dictionary<string, RTCRtpReceiver> micMap = new Dictionary<string, RTCRtpReceiver>();
+
+        /// <summary>
         /// List of all connectionIds that have connected to this server
         /// </summary>
         private Queue<ClientStreams> priorPlayers = new Queue<ClientStreams>();
@@ -61,6 +68,16 @@ namespace FusedVR.VRStreaming {
         }
 
         #region WebRTC Events
+        public override void CreateConnection(string connectionId) {
+            Debug.LogError("ON CREATE CONNECTION");
+            base.CreateConnection(connectionId);
+        }
+
+        public void OnCreatedConnection(SignalingEventData data)
+        {
+            Debug.LogError("ON CREATE CONNECTION");
+        }
+
         public void OnDeletedConnection(SignalingEventData eventData) {
             Disconnect(eventData.connectionId);
         }
@@ -86,7 +103,7 @@ namespace FusedVR.VRStreaming {
         /// Determines whether to accept offer and if so that to apply sources and submit answer
         /// </summary>
         public void OnOffer(SignalingEventData data) {
-
+            Debug.LogError("GOT OFFER");
             string inputGID = GetGameID(data.sdp);
             if (gameID.Length != 0 && inputGID != gameID) {
                 Debug.Log($"Offer Doesn't Match My GameID : {inputGID}");
@@ -116,7 +133,11 @@ namespace FusedVR.VRStreaming {
                     player = Instantiate(playerPrefabs[playerID]);
                 }
 
+                // AUDIO IN + AUDIO OUT IS NOT WORKING - CHECK TRACKS for CONFLICTS
+                // CHECK ON JS TRACK SIDE TOO
                 player.SetFullConnection(data.connectionId, this);
+                player.AddMicrophone(micMap[data.connectionId]); //add mic if avaliable
+
                 activeConnections.Add(data.connectionId, player); //confirm we will use this connection
 
                 SendAnswer(data.connectionId); //accept offer with an answer
@@ -130,6 +151,18 @@ namespace FusedVR.VRStreaming {
             if (activeConnections.ContainsKey(data.connectionId)) {
                 activeConnections[data.connectionId].SetDataChannel(data);
             }
+        }
+
+        /// <summary>
+        /// Apply Microphone Receiver
+        /// </summary>
+        public void OnAddReceiver(SignalingEventData data) {
+            Debug.LogError("GOT RECEIVER");
+            if (data.receiver.Track.Kind != TrackKind.Audio) //only looking for mics
+                return;
+
+            Debug.LogError("GOT MIC RECEIVER " + data.receiver.Track.Id);
+            micMap[data.connectionId] = data.receiver;
         }
 
         #endregion

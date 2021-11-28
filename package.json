@@ -1,6 +1,6 @@
 {
   "name": "com.fusedvr.vrstreaming",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "displayName": "FusedVR Streaming",
   "description": "This VR Streaming Package contains a minimal SDK & prefabs to implement VR Streaming (CloudXR) using WebRTC and Unity Remote Rendering",
   "dependencies": {
@@ -13,21 +13,21 @@
     "renderstreaming",
     "webrtc"
   ],
-  "samples" : [
+  "samples": [
     {
-      "displayName" : "HDRP VR Render Streaming",
-      "description" : "Example of HDRP Streaming to VR. Requires HDRP Unity Package",
-      "path" : "Samples~/HDRPVR"
+      "displayName": "HDRP VR Render Streaming",
+      "description": "Example of HDRP Streaming to VR. Requires HDRP Unity Package",
+      "path": "Samples~/HDRPVR"
     },
     {
-      "displayName" : "VRTK Input Integration",
-      "description" : "Example of VRTK Integration with VR Render Streaming to highlight using input",
-      "path" : "Samples~/VRTK-Sample"
+      "displayName": "VRTK Input Integration",
+      "description": "Example of VRTK Integration with VR Render Streaming to highlight using input",
+      "path": "Samples~/VRTK-Sample"
     },
     {
-      "displayName" : "Asymmetrical Multplayer",
-      "description" : "Example of Asymmetrical Multiplayer in Apartment sample scene. 2D players can WASD, while VR players can teleport",
-      "path" : "Samples~/Asym-Apartment"
+      "displayName": "Asymmetrical Multplayer",
+      "description": "Example of Asymmetrical Multiplayer in Apartment sample scene. 2D players can WASD, while VR players can teleport",
+      "path": "Samples~/Asym-Apartment"
     },
     {
       "displayName" : "Blockchain Web3 Testing",
@@ -40,13 +40,21 @@
       "path" : "Samples~/Authentication"
     }
   ],
-  "author": {
-    "name": "Vasanth Mohan",
-    "email": "fusedarvr@gmail.com",
-    "url": "https://www.fusedvr.com"
-  },
+  "author": "Vasanth Mohan <fusedarvr@gmail.com> (https://www.fusedvr.com)",
   "type": "tool",
   "unity": "2019.4",
   "hideInEditor": false,
-  "license": "See LICENSE.md file"
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FusedVR/VRStreaming.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FusedVR/VRStreaming/issues"
+  },
+  "homepage": "https://github.com/FusedVR/VRStreaming#readme"
 }
