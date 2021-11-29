@@ -4,10 +4,9 @@
   "displayName": "FusedVR Streaming",
   "description": "This VR Streaming Package contains a minimal SDK & prefabs to implement VR Streaming (CloudXR) using WebRTC and Unity Remote Rendering",
   "dependencies": {
-    "com.unity.renderstreaming": "https://github.com/Unity-Technologies/UnityRenderStreaming.git?path=/com.unity.renderstreaming",
+    "com.fusedvr.renderstreaming": "3.1.2",
     "com.unity.nuget.newtonsoft-json": "2.0.0",
-    "com.unity.inputsystem": "1.0.2",
-    "com.unity.webrtc" : "2.4.0-exp.4"
+    "com.unity.inputsystem": "1.0.2"
   },
   "keywords": [
     "vr",
