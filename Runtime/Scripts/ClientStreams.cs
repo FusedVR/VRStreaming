@@ -30,7 +30,7 @@ namespace FusedVR.VRStreaming {
         /// Streams (video, audio) that need to be sent to the client
         /// </summary>
         [SerializeField]
-        private List<StreamSourceBase> streams = new List<StreamSourceBase>();
+        private List<StreamSenderBase> streams = new List<StreamSenderBase>();
 
         /// <summary>
         /// Connection ID for client
@@ -61,13 +61,11 @@ namespace FusedVR.VRStreaming {
         public void SetFullConnection(string connectionID, SignalingHandlerBase broadcast) {
             myConnection = connectionID; //save ID
 
-            foreach (StreamSourceBase source in streams) {
-                var transceiver = broadcast.AddTrack(myConnection, source.Track);
-                source.SetSender(myConnection, transceiver.Sender);
+            foreach (StreamSenderBase source in streams) {
+                broadcast.AddSender(myConnection, source);
             }
 
-            var _channel = broadcast.CreateChannel(myConnection, dataChannel.Label);
-            dataChannel.SetChannel(myConnection, _channel);
+            broadcast.AddChannel(myConnection, dataChannel);
         }
 
         /// <summary>
@@ -76,7 +74,7 @@ namespace FusedVR.VRStreaming {
         /// Filed Issue : https://github.com/Unity-Technologies/com.unity.webrtc/issues/523
         /// </summary>
         public void ViewStreams(bool view) {
-            foreach (StreamSourceBase source in streams) {
+            foreach (StreamSenderBase source in streams) {
                 source.gameObject.SetActive(view); //disables sending data
                 //source.Track.Enabled = view;
             }
@@ -108,7 +106,7 @@ namespace FusedVR.VRStreaming {
         public void DeleteConnection(string connectionID) {
 
             if (myConnection == connectionID) {
-                foreach (StreamSourceBase source in streams) {
+                foreach (StreamSenderBase source in streams) {
                     source.SetSender(myConnection, null);
                 }
 
