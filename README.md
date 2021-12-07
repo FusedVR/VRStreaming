@@ -14,6 +14,16 @@ How To Setup CloudXR to WebXR
 
 # Setup
 
+This project can either be imported via the Unity Package Manager using the Github Repo URL or alternatively via [NPM](https://www.npmjs.com/package/com.fusedvr.vrstreaming). If importting via NPM, you will need to include the following information to your Scoped Registeries, located under Project Settings. The primary advantage of using NPM is that you will be notified of updates via the Unity Package Manager. 
+
+- name : **npmjs**
+- url : **https://registry.npmjs.org**
+- scopes : **com.fusedvr**
+
+__________________
+
+## Unity Setup
+
 1. Import this Github Repo as a Unity Package via the Unity Package Manager **Add from Git URL** : https://github.com/FusedVR/VRStreaming.git
 2. Drag the provided **Render Streaming Service** prefab into your Unity scene
 3. Verify the WebRTC server address on the **Render Streaming Service** Gameobject and Component is : [wss://webrtc-pcehljv7ea-uw.a.run.app](https://webrtc-pcehljv7ea-uw.a.run.app)
@@ -95,6 +105,10 @@ The forth sample shows an example of interacting with the Blockchain. This sampl
 - **For UnityEditor, Open Window->Analysis->Input Debugger and turn on Lock Input to Game View in Options**
 
 ![Blockchain UI](https://raw.githubusercontent.com/FusedVR/VRStreaming/master/Images~/blockchain.png)
+
+### Authentication
+
+Additionally, to help developers get started with building their own blockchain applications / NFTs, a new sample was recently added in the 0.6.1 update, which highlights how developers can authenticate a smart contract deployed on the Polygon network. More information will eventually be avaliable on the [nft.games](https://github.com/FusedVR/nft.games) project, which will be used as a means for storing metadata and easily hosting your own NFT.
 
 # Camera Eye Resolution
 
