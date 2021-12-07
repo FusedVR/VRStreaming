@@ -4,6 +4,14 @@ All notable changes to com.unity.renderstreaming package will be documented in t
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2021-12-06
+
+### Improvements
+
+- Updated to latest version of Unity Render Streaming 3.1.0-exp.2
+- Added **NEW** Authentication Sample to highlight interacting with the FusedVR Smart Contract
+- Published Package to NPM for automated updates : https://www.npmjs.com/package/com.fusedvr.vrstreaming
+
 ## [0.6.0] - 2021-10-04
 
 ### Added
