@@ -14,7 +14,7 @@ How To Setup CloudXR to WebXR
 
 # Setup
 
-This project can either be imported via the Unity Package Manager using the Github Repo URL or alternatively via [NPM](https://www.npmjs.com/package/com.fusedvr.vrstreaming). If importting via NPM, you will need to include the following information to your Scoped Registeries, located under Project Settings. The primary advantage of using NPM is that you will be notified of updates via the Unity Package Manager. 
+This project can either be imported via the Unity Package Manager using the Github Repo URL or alternatively via [NPM](https://www.npmjs.com/package/com.fusedvr.vrstreaming). If importing via NPM, you will need to include the following information to your Scoped Registries, located under Project Settings. The primary advantage of using NPM is that you will be notified of updates via the Unity Package Manager. 
 
 - name : **npmjs**
 - url : **https://registry.npmjs.org**
@@ -108,7 +108,7 @@ The forth sample shows an example of interacting with the Blockchain. This sampl
 
 ### Authentication
 
-Additionally, to help developers get started with building their own blockchain applications / NFTs, a new sample was recently added in the 0.6.1 update, which highlights how developers can authenticate a smart contract deployed on the Polygon network. More information will eventually be avaliable on the [nft.games](https://github.com/FusedVR/nft.games) project, which will be used as a means for storing metadata and easily hosting your own NFT.
+Additionally, to help developers get started with building their own blockchain applications / NFTs, a new sample was recently added in the 0.6.1 update, which highlights how developers can authenticate a smart contract deployed on the Polygon network. More information will eventually be available on the [nft.games](https://github.com/FusedVR/nft.games) project, which will be used as a means for storing metadata and easily hosting your own NFT.
 
 # Camera Eye Resolution
 
