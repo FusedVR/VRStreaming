@@ -3,7 +3,7 @@ using Unity.RenderStreaming;
 using Unity.WebRTC;
 
 namespace FusedVR.VRStreaming {
-    public class VRCamStream : VideoStreamBase {
+    public class VRCamStream : VideoStreamSender {
 
         #region Variables
         [SerializeField]
@@ -59,7 +59,7 @@ namespace FusedVR.VRStreaming {
                 cameras[i].rect = new Rect(new Vector2(i / cameras.Length, 0f), new Vector2(1 / cameras.Length, 1f)); 
             }
 
-            return new VideoStreamTrack("VR Camera", rt);
+            return new VideoStreamTrack(rt);
         }
         #endregion
 

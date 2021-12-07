@@ -1,10 +1,10 @@
 {
   "name": "com.fusedvr.vrstreaming",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "displayName": "FusedVR Streaming",
   "description": "This VR Streaming Package contains a minimal SDK & prefabs to implement VR Streaming (CloudXR) using WebRTC and Unity Remote Rendering",
   "dependencies": {
-    "com.unity.renderstreaming": "3.1.0-exp.1",
+    "com.unity.renderstreaming": "3.1.0-exp.2",
     "com.unity.nuget.newtonsoft-json": "2.0.0",
     "com.unity.inputsystem": "1.0.2"
   },
@@ -33,6 +33,11 @@
       "displayName" : "Blockchain Web3 Testing",
       "description" : "Example on using the Blockchain Components of the Project to interact with Web3",
       "path" : "Samples~/Blockchain"
+    },
+    {
+      "displayName" : "Blockchain Web3 Authentication",
+      "description" : "Example on using the Blockchain Components of the Project to authenticate User Ownership with Web3",
+      "path" : "Samples~/Authentication"
     }
   ],
   "author": {
