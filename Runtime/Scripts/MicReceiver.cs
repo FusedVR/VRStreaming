@@ -26,35 +26,34 @@ public class MicReceiver : MonoBehaviour {
     private AudioSource source;
 
     private void OnEnable() {
-        GetComponent<AudioStreamReceiver>().OnUpdateReceiveAudioClip += OnAudioClip;
+        GetComponent<AudioStreamReceiver>().OnUpdateReceiveAudioSource += OnAudioClip;
         GetComponent<AudioStreamReceiver>().OnStartedStream += OnStream;
         source = GetComponent<AudioSource>();
     }
 
     private void OnDisable() {
-        GetComponent<AudioStreamReceiver>().OnUpdateReceiveAudioClip -= OnAudioClip;
+        GetComponent<AudioStreamReceiver>().OnUpdateReceiveAudioSource -= OnAudioClip;
     }
 
     private void Update() {
         AudioStreamTrack track = GetComponent<AudioStreamReceiver>().Track as AudioStreamTrack;
-        Debug.LogError("UPDATE : " + track.Renderer);
+        Debug.LogError("UPDATE : " + track.Source);
         //TODO this is replaying old clip if not ready
 
-        if ( !source.isPlaying && track.Renderer != null) {
+        if ( !source.isPlaying && track.Source != null) {
             Debug.LogError("SET CLIP");
-            source.clip = track.Renderer;
+            source = track.Source;
             source.Play();
         } 
     }
 
-    void OnAudioClip(AudioClip clip) {
+    void OnAudioClip(AudioSource source) {
         Debug.LogError("GOT CLIP");
-        source.clip = clip;
+        source.clip = source.clip;
     }
 
     void OnStream(string connectionId) {
-        Debug.LogError("GOT STREAM START "  + GetComponent<AudioStreamReceiver>().Clip);
+        Debug.LogError("GOT STREAM START "  + GetComponent<AudioStreamReceiver>().Source);
 
     }
-
 }
