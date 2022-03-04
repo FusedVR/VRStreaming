@@ -19,22 +19,16 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class MicReceiver : MonoBehaviour {
 
-    //TODO : This is only working when there is no AudioStreamReader in the stream being sent
-    //Comment line 125 out. For some reason there is a collision between the reciever and senders
-    // NOTE: SENDER STILL WORKS, it is just the RECEIVER THAT IS BUGGED
-
     private AudioSource source;
 
     private void OnEnable() {
-        GetComponent<AudioStreamReceiver>().OnUpdateReceiveAudioSource += OnAudioClip;
-        GetComponent<AudioStreamReceiver>().OnStartedStream += OnStream;
         source = GetComponent<AudioSource>();
+        GetComponent<AudioStreamReceiver>().SetSource(source);
+        //GetComponent<AudioStreamReceiver>().OnUpdateReceiveAudioSource += OnAudioClip;
+        //GetComponent<AudioStreamReceiver>().OnStartedStream += OnStream;
     }
 
-    private void OnDisable() {
-        GetComponent<AudioStreamReceiver>().OnUpdateReceiveAudioSource -= OnAudioClip;
-    }
-
+/*
     private void Update() {
         AudioStreamTrack track = GetComponent<AudioStreamReceiver>().Track as AudioStreamTrack;
         Debug.LogError("UPDATE : " + track.Source);
@@ -56,4 +50,5 @@ public class MicReceiver : MonoBehaviour {
         Debug.LogError("GOT STREAM START "  + GetComponent<AudioStreamReceiver>().Source);
 
     }
+*/
 }

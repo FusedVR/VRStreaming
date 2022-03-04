@@ -70,10 +70,6 @@ namespace FusedVR.VRStreaming {
             myConnection = connectionID; //save ID
 
             foreach (StreamSenderBase source in streams) {
-                //if (source is AudioStreamSender) {
-                //    StartCoroutine( TestSender(broadcast, source) );
-                //    continue;
-                //}
                 broadcast.AddSender(myConnection, source);
             }
 
